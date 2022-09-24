@@ -1,6 +1,8 @@
 ﻿#include<stdio.h>
 #include<locale.h>
 #include<malloc.h>
+#include<stdbool.h>
+#include<stdlib.h>
 
 void swap(int* a, int* b) {
     *a = *a + *b;
@@ -17,6 +19,7 @@ void bubbleSort(int *array, int arraySize) {
         }
     }
 }
+
 
 void countingSort(int* array, int arraySize) {
     int maxArrayElement = array[0];
@@ -48,10 +51,45 @@ void countingSort(int* array, int arraySize) {
     free(arrayForCounting);
 }
 
-void main() {
-    int a[5] = {6, 3, 7, 4, 2};
-    countingSort(a, 5);
-    for (int i = 0; i < 5; ++i) {
-        printf("%d ", a[i]);
+bool equalityTest(void) {
+    for (int j = 0; j < 5; ++j) {
+        int arraysSize = 5 + rand() % 30;
+        int* arrayOne = (int*)calloc(arraysSize, sizeof(int));
+        if (arrayOne == NULL)
+        {
+            printf("Всё очень плохо :(");
+            return false;
+        }
+        int* arrayOneCopy = (int*)calloc(arraysSize, sizeof(int));
+        if (arrayOneCopy == NULL)
+        {
+            printf("Всё очень плохо :(");
+            return false;
+        }
+        for (int i = 0; i < arraysSize; ++i) {
+            arrayOne[i] = -100 + rand() % 200;
+        }
+        for (int i = 0; i < arraysSize; ++i) {
+            arrayOneCopy[i] = arrayOne[i];
+        }
+        bubbleSort(&arrayOne, arraysSize);
+        countingSort(&arrayOneCopy, arraysSize);
+        for (int i = 0; i < arraysSize; ++i) {
+            if (arrayOne[i] != arrayOneCopy[i]) {
+                free(arrayOne);
+                free(arrayOneCopy);
+                return false;
+            }
+        }
+        free(arrayOne);
+        free(arrayOneCopy);
     }
+    return true;
+}
+
+
+void main() {
+    srand(time(NULL));
+    bool x = equalityTest();
+    x ? printf("YES") : printf("NO");
 }
