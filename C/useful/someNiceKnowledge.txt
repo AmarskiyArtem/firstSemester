@@ -3,3 +3,4 @@
 #include<locale.h> + в main '''setlocale(LC_ALL, "RU")'''; - подключение русского языка в консоли
 #include<stdlib.h> + srand(time(NULL)); + z + rand() % x (z, x - диапазон) - рандомные числа в си
 scanf_s("%100s", String, (unsigned)sizeof(String)); - ввод строки
+#include<malloc.h> + int* array = (int*)calloc(arraySize, sizeof(int)); (интовый динамический массив размера arraySize)
