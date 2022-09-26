@@ -4,7 +4,6 @@
 #include<stdbool.h>
 #include<time.h>
 
-
 #define arrayLength 20
 
 void swap(int* a, int* b) {
