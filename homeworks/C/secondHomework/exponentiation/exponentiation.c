@@ -39,8 +39,6 @@ bool testsForExponentiationFast(void) {
 
 void main() {
     setlocale(LC_ALL, "RU");
-    srand(time(NULL));
-
     if (!testsForExponentiationStandart()) {
         printf("АААААААА ПАНИКА 1 ТЕСТ НЕ ПРОШЕЛ\n");
     }
@@ -53,6 +51,6 @@ void main() {
     printf("Введите степень\n");
     int power = 0;
     scanf_s("%d", &power);
-    long double result = exponentiationFast(number, power);
-    result >= 0 ? printf("%d в степени %d = %Lf", number, power, result) : printf("%d в степени %d = %Lf", number, power, result);
+    double result = exponentiationFast(number, power);
+    result >= 1 ? printf("%d в степени %d = %d", number, power, (int)result) : printf("%d в степени %d = %lf", number, power, result);
 }

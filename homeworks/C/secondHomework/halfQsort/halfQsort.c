@@ -1,9 +1,11 @@
 ﻿#include<stdio.h>
 #include<stdlib.h>
-#include<malloc.h>
 #include<locale.h>
 #include<stdbool.h>
+#include<time.h>
 
+
+#define arrayLength 20
 
 void swap(int* a, int* b) {
     *a = *a ^ *b;
@@ -37,20 +39,14 @@ void halfQsort(int* array, int arraySize) {
 
 void main() {
     setlocale(LC_ALL, "RU");
-    srand(time(NULL));
-    int arraySize = 10 + rand() % 10;
+    srand((unsigned)time(NULL));
+    int array[arrayLength] = { 0 };
     printf("Исходный массив:\n");
-    int* array = (int*)calloc(arraySize, sizeof(int));
-    if (array == NULL)
-    {
-        printf("Всё очень плохо :(");
-        return;
-    }
-    for (int i = 0; i < arraySize; ++i) {
+    for (int i = 0; i < arrayLength; ++i) {
         array[i] = rand() % 100;
         printf("%d ", array[i]);
     }
-    halfQsort(&array, arraySize);
+    halfQsort(&array[0], arrayLength);
     printf("\nМассив после изменений:\n");
-    arrayPrint(&array, arraySize);
+    arrayPrint(&array[0], arrayLength);
 }
