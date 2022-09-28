@@ -4,17 +4,13 @@
 #include<time.h>
 #include<stdbool.h>
 
-//почему-то через такой свап не работает qSort, причем только он
-/*void swap(int* a, int* b) {     
+void swap(int* a, int* b) {     
+    if (a == b) {
+        return;
+    }
     *a = *a ^ *b;
     *b = *b ^ *a;
     *a = *a ^ *b;
-}*/
-
-void swap(int* a, int* b) {
-    int temporary = *a;
-    *a = *b;
-    *b = temporary;
 }
 
 void arrayPrint(int* array, int arraySize) {
