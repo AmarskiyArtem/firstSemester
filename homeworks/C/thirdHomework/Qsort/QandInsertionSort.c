@@ -2,16 +2,14 @@
 #include<malloc.h>
 #include<stdlib.h>
 #include<time.h>
-
+#include<stdbool.h>
 
 //почему-то через такой свап не работает qSort, причем только он
-
 /*void swap(int* a, int* b) {     
     *a = *a ^ *b;
     *b = *b ^ *a;
     *a = *a ^ *b;
 }*/
-
 
 void swap(int* a, int* b) {
     int temporary = *a;
@@ -23,6 +21,15 @@ void arrayPrint(int* array, int arraySize) {
     for (int i = 0; i < arraySize; ++i) {
         printf("%d ", array[i]);
     }
+}
+
+bool sortChecker(int* array, int arraySize) {
+    for (int i = 0; i < arraySize - 1; ++i) {
+        if (array[i] > array[i + 1]) {
+            return false;
+        }
+    }
+    return true;
 }
 
 void insertionSort(int* array, int arrayLength) {
@@ -56,13 +63,49 @@ void quickSort(int* array, int low, int high) {
     }
 }
 
+bool tests(void) {
+    for (int i = 0; i < 3; ++i) {
+        int arrayForTestsLength = 3 + rand() % 40;
+        int* arrayForTests = (int*)calloc(arrayForTestsLength, sizeof(int));
+        if (arrayForTests == NULL) {
+            printf("MEMORY PANICCCC");
+            return false;
+        }
+        int* arrayForTestsCopy = (int*)calloc(arrayForTestsLength, sizeof(int));
+        if (arrayForTestsCopy == NULL) {
+            printf("MEMORY PANICCCC");
+            free(arrayForTests);
+            return false;
+        }
+        for (int i = 0; i < arrayForTestsLength; ++i) {
+            arrayForTests[i] = -100 + rand() % 200;
+            arrayForTestsCopy[i] = arrayForTests[i];
+        }
+        arrayForTestsLength <= 10 ? insertionSort(&arrayForTests[0], arrayForTestsLength) : 
+            quickSort(&arrayForTests[0], 0, arrayForTestsLength - 1);
+        if (!sortChecker(&arrayForTests[0], arrayForTestsLength)) {
+            printf("Sorting error\n Origin array:\n");
+            arrayPrint(&arrayForTestsCopy[0], arrayForTestsLength);
+            printf("\nWrong sorted array:\n");
+            arrayPrint(&arrayForTests[0], arrayForTestsLength);
+            free(arrayForTests);
+            free(arrayForTestsCopy);
+            return false;
+        }
+    }
+    return true;
+}
+
 void main() {
     srand((unsigned)time(NULL));
+    if (!tests()) {
+        return;
+    }
+
     int arrayLength = 3 + rand() % 20;
     int* array = (int*)calloc(arrayLength, sizeof(int));
-    if (array == NULL)
-    {
-        printf("Всё очень плохо :(");
+    if (array == NULL) {
+        printf("MEMORY PANICC");
         return;
     }
     printf("original array: \n");
