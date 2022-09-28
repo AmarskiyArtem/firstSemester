@@ -9,8 +9,7 @@
 scanf_s("%100s", String, (unsigned)sizeof(String)); - ввод строки
 
 #include<malloc.h> + int* array = (int*)calloc(arraySize, sizeof(int)); (интовый динамический массив размера arraySize) +
-    if (array == NULL)
-    {
+    if (array == NULL){
         printf("Всё очень плохо :(");
         return;
     }

@@ -79,6 +79,7 @@ bool tests(void) {
         }
         arrayForTestsLength <= 10 ? insertionSort(&arrayForTests[0], arrayForTestsLength) : 
             quickSort(&arrayForTests[0], 0, arrayForTestsLength - 1);
+        
         if (!sortChecker(&arrayForTests[0], arrayForTestsLength)) {
             printf("Sorting error\n Origin array:\n");
             arrayPrint(&arrayForTestsCopy[0], arrayForTestsLength);
