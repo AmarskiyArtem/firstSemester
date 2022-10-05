@@ -9,7 +9,7 @@ int betterSumOfHonestFibonacciNumbers(int rightBoard) {
     }
     int currentFibonacciNumber = 2;
     int fibonacciArray[2] = { 1, 1 };
-    for (int i = 0; true; ++i) {
+    while (true) {
         if (currentFibonacciNumber > rightBoard) {
             break;
         }
