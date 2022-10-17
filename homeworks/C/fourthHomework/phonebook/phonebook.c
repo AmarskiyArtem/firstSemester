@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <locale.h>
+#include <string.h>
 #define maxStringLength 200
 #define storageSize 100
 
@@ -30,7 +31,6 @@ void printStorage(FILE* file) {
         printf("%s", record);
     }
     fseek(file, 0, SEEK_SET);
-    return;
 }
 void printListOfActions(void) {
     printf("--------------------------------------\n"
@@ -68,6 +68,25 @@ void savingRecords(FILE* file, char* data[], int amountOfUnsavedRecords) {
     fseek(file, 0, SEEK_SET);
     printf("Изменения добавлены\n");
 }
+
+void search(FILE* file, char searchingSymbols[maxStringLength]) {
+    int size = currentStorageSize(file);
+    bool wasFound = false;
+    char record[storageSize] = { 0 };
+    for (int i = 0; i < size; ++i)
+    {
+        fgets(record, maxStringLength, file);
+        if (strstr(record, searchingSymbols) != NULL) {
+            wasFound = true;
+            printf("%s\n", record);
+        }
+    }
+    if (!wasFound) {
+        printf("Ничего не найдено\n");
+    }
+    fseek(file, 0, SEEK_SET);
+}
+
 void main() {
     setlocale(LC_ALL, "RU");
     FILE* file = fopen("storage.txt", "a+");
@@ -102,10 +121,18 @@ void main() {
         }
         case 3:
         {
+            printf("Введите имя:\n");
+            char name[maxStringLength] = { 0 };
+            scanf_s("%100s", name, (unsigned)sizeof(name));
+            search(file, name);
             break;
         }
         case 4:
         {
+            printf("Введите номер:\n");
+            char phoneNumber[maxStringLength] = { 0 };
+            scanf_s("%100s", phoneNumber, (unsigned)sizeof(phoneNumber));
+            search(file, phoneNumber);
             break;
         }
         case 5:
