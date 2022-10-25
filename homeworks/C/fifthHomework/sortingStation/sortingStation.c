@@ -4,8 +4,10 @@
 #include <string.h>
 #define maxMathExpressionLength 1000
 
-void postfixToInfix(char* InfixExpression, char* postfixExpression, int* errorCode) {
-    
+void postfixToInfix(char InfixExpression[maxMathExpressionLength], char* postfixExpression, int* errorCode) {
+    *errorCode = 0;
+    int postfixIndex = 0;
+    printf("%zd", strlen(InfixExpression));
 }
 
 bool expressionChecker(char expression[maxMathExpressionLength]) {
@@ -29,12 +31,12 @@ void main() {
     }
     int errorCode = 0;
     char mathExpressionInInfixForm[maxMathExpressionLength] = { 0 };
-    char mathExpressionInPostfixForm[maxMathExpressionLength] = { 0 };
-    postfixToInfix(&mathExpressionInInfixForm[0], &mathExpressionInPostfixForm[0], &errorCode);
-    if (errorCode != 0) {
+    printf("%zd\n", strlen(mathExpressionInInfixForm));
+    postfixToInfix(mathExpressionInInfixForm, &mathExpressionInPostfixForm[0], &errorCode);
+    /*if (errorCode != 0) {
         printf("Incorrect math expression");
     }
     else {
         printf("Infix form: %s", mathExpressionInInfixForm);
-    }
+    }*/
 }
