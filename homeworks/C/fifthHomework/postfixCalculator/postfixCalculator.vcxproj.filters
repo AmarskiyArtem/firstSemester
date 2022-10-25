@@ -18,7 +18,7 @@
     <ClCompile Include="postfixCalculator.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="stack.c">
+    <ClCompile Include="..\stack\stack.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
