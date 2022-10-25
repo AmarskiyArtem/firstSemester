@@ -4,6 +4,7 @@
 
 void main() {
     Stack* stack = createStack();
-    push(stack, 200);
-    printf("%d", top(stack));
+    push(stack, '2');
+    int a = top(stack)-'0';
+    printf("%d", a);
 }
