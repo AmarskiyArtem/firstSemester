@@ -26,13 +26,33 @@ bool isEmpty(SortedList* list) {
     return list->head == NULL;
 }
 
-//int push(SortedList* list, int value) {
-//    Node* temp = malloc(sizeof(Node));
-//    if (temp == NULL) {
-//        return -1;
-//    }
-//    if (isEmpty(list)) {
-//        temp->value = value;
-//        temp->next = list->head;
-//    }
-//}
+int push(SortedList* list, int value) {
+    Node* temp = malloc(sizeof(Node));
+    if (temp == NULL) {
+        return -1;
+    }
+    if (isEmpty(list)) {
+        temp->value = value;
+        temp->next = list->head;
+        list->head = temp;
+        return 0;
+    }
+    Node* currentNode = list->head;
+    while (currentNode->next != NULL && value > currentNode->value) {
+        currentNode = currentNode->next;
+    }
+    if (currentNode->next == NULL) {
+        temp->value = value;
+        temp->next = NULL;
+        currentNode->next = temp;
+        return 0;
+    }
+    temp->value = value;
+    temp->next = currentNode->next;
+    currentNode->next = temp;
+    return 0;
+}
+
+int top(SortedList* list, int index, int* errorCode) {
+    return list->head->value;
+}
