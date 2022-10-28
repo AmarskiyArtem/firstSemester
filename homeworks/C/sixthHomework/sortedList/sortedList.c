@@ -97,3 +97,17 @@ int pop(SortedList* list, int value) {
     free(currentNode);
     return 0;
 }
+
+void deleteSortedList(SortedList* list) {
+    if (list->head == NULL) {
+        return;
+    }
+    Node* currentNode = list->head;
+    while (currentNode->next != NULL) {
+        Node* temp = malloc(sizeof(Node));
+        temp = currentNode;
+        currentNode =  currentNode->next;
+        free(temp);
+    }
+    free(currentNode);
+}

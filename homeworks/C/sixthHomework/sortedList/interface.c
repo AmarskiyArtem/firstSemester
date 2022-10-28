@@ -62,4 +62,5 @@ int main() {
         }
         }
     }
+    deleteSortedList(sortedlist);
 }
