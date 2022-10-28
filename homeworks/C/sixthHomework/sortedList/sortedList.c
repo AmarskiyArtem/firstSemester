@@ -31,31 +31,35 @@ int push(SortedList* list, int value) {
     if (temp == NULL) {
         return -1;
     }
+    temp->value = value;
     if (isEmpty(list)) {
-        temp->value = value;
         temp->next = list->head;
         list->head = temp;
         return 0;
     }
     Node* currentNode = list->head;
+    Node* previousNode = list->head;
     while (currentNode->next != NULL && value > currentNode->value) {
+        previousNode = currentNode;
         currentNode = currentNode->next;
     }
     if (currentNode->next == NULL && value > currentNode->value) {
-        temp->value = value;
-        temp->next = currentNode->next;
+        temp->next = NULL;
         currentNode->next = temp;
         return 0;
     }
     if (currentNode->next == NULL) {
-        temp->value = value;
+        temp->next = currentNode;
+        previousNode->next = temp;
+        return 0;
+    }
+    if (currentNode == previousNode) {
         temp->next = currentNode;
         list->head = temp;
         return 0;
     }
-    temp->value = value;
-    temp->next = currentNode->next;
-    currentNode->next = temp;
+    temp->next = currentNode;
+    previousNode->next = temp;
     return 0;
 }
 
@@ -69,4 +73,8 @@ int printSortedList(SortedList* list) {
         currentNode = currentNode->next;
     } while (currentNode != NULL);
     return 0;
+}
+
+int pop(SortedList* list, int value) {
+
 }
