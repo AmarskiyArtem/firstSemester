@@ -1,6 +1,7 @@
 #pragma once
 #include "sortedList.h"
 #include <stdio.h>
+#include <stdbool.h>
 
 int main() {
     SortedList* sortedlist = createSortedList();
@@ -8,10 +9,14 @@ int main() {
         printf("All bad");
         return;
     }
-    push(sortedlist, 100);
-    push(sortedlist, 200);
-    push(sortedlist, 50);
-    push(sortedlist, 400);
-    int errorCode = 0;
-    printSortedList(sortedlist);
+    bool isContinue = true;
+    while (isContinue) {
+        int currentAction = 0;
+
+        scanf_s("%d", &currentAction);
+        switch () {
+        default:
+            break;
+        }
+    }
 }

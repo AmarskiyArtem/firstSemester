@@ -76,5 +76,24 @@ int printSortedList(SortedList* list) {
 }
 
 int pop(SortedList* list, int value) {
-
+    if (isEmpty(list)) {
+        return -1;
+    }
+    Node* currentNode = list->head;
+    Node* previousNode = list->head;
+    while (currentNode->next != NULL && value != currentNode->value) {
+        previousNode = currentNode;
+        currentNode = currentNode->next;
+    }
+    if (value != currentNode->value) {
+        return -1;
+    }
+    if (currentNode == previousNode) {
+        list->head = currentNode->next;
+        free(currentNode);
+        return 0;
+    }
+    previousNode->next = currentNode->next;
+    free(currentNode);
+    return 0;
 }
