@@ -15,7 +15,7 @@ int pop(SortedList* list, int value);
 void deleteSortedList(SortedList* list);
 
 //return element with given index, errorCode = 0 if succesfull, -1 if not (no such index) 
-int top(SortedList* list, int index, int* errorCode);
+//int top(SortedList* list, int index, int* errorCode);
 
 //print all elements, return 0 succesfull, -1 if not (list is empty)
 int printSortedList(SortedList* list);

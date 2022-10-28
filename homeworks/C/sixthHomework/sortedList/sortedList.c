@@ -41,10 +41,16 @@ int push(SortedList* list, int value) {
     while (currentNode->next != NULL && value > currentNode->value) {
         currentNode = currentNode->next;
     }
+    if (currentNode->next == NULL && value > currentNode->value) {
+        temp->value = value;
+        temp->next = currentNode->next;
+        currentNode->next = temp;
+        return 0;
+    }
     if (currentNode->next == NULL) {
         temp->value = value;
-        temp->next = NULL;
-        currentNode->next = temp;
+        temp->next = currentNode;
+        list->head = temp;
         return 0;
     }
     temp->value = value;
@@ -53,6 +59,14 @@ int push(SortedList* list, int value) {
     return 0;
 }
 
-int top(SortedList* list, int index, int* errorCode) {
-    return list->head->value;
+int printSortedList(SortedList* list) {
+    if (isEmpty(list)) {
+        return -1;
+    }
+    Node* currentNode = list->head;
+    do {
+        printf("%d\n", currentNode->value);
+        currentNode = currentNode->next;
+    } while (currentNode != NULL);
+    return 0;
 }

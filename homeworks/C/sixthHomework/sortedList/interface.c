@@ -11,6 +11,7 @@ int main() {
     push(sortedlist, 100);
     push(sortedlist, 200);
     push(sortedlist, 50);
+    push(sortedlist, 400);
     int errorCode = 0;
-    printf("%d", top(sortedlist, 0, &errorCode));
+    printSortedList(sortedlist);
 }
