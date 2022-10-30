@@ -12,7 +12,15 @@ int lastAlive(int n, int m) {
     return position;
 }
 
+bool tests(void) {
+    return (lastAlive(6, 4) == 5 && lastAlive(2, 8) == 1 && lastAlive(5, 5) == 2);
+}
+
 void main() {
+    if (!tests()) {
+        printf("Tests failed");
+        return;
+    }
     printf("Input amount of warriors (n):\n");
     int n = 0;
     scanf_s("%d", &n);
