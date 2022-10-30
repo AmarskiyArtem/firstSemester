@@ -5,5 +5,14 @@
 void main() {
     int n = 3;
     CycleList* cycleList = createCycleList(n);
-    printf("%d", top(cycleList));
+    top(cycleList);
+    printf("\n");
+    deleteElement(cycleList, 1, 2); 
+    top(cycleList);
+    printf("\n");
+    deleteElement(cycleList, 3, 2);
+    top(cycleList);
+    //printf("\n");
+    //deleteElement(cycleList, 3, 2);
+    //isAlone(cycleList) ? printf("YES") : printf("NO");
 }

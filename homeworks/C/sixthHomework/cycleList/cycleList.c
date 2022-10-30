@@ -1,17 +1,16 @@
 ﻿#pragma once
 #include "cycleList.h"
 #include <stdlib.h>
+#include <stdio.h>
 
 typedef struct Node {
-    int value;
+    int number;
     struct Node* next;
 } Node;
 
 typedef struct CycleList {
     struct Node* head;
 } CycleList;
-
-
 
 CycleList* createCycleList(int amountOfWarriors) {
     CycleList* cycleList = malloc(sizeof(Node));
@@ -22,7 +21,7 @@ CycleList* createCycleList(int amountOfWarriors) {
     if (firstElement == NULL) {
         return NULL;
     }
-    firstElement->value = 1;
+    firstElement->number = 1;
     firstElement->next = firstElement;
     cycleList->head = firstElement;
     Node* currentNode = cycleList->head;
@@ -31,7 +30,7 @@ CycleList* createCycleList(int amountOfWarriors) {
         if (temp == NULL) {
             return NULL;
         }
-        temp->value = i;
+        temp->number = i;
         temp->next = cycleList->head;
         currentNode->next = temp;
         currentNode = currentNode->next;
@@ -39,6 +38,47 @@ CycleList* createCycleList(int amountOfWarriors) {
     return cycleList;
 }
 
+int deleteElement(CycleList* list, int position, int m, int* exitCode) {
+    *exitCode = -1;
+    Node* currentNode = list->head;
+    Node* previousNode = list->head;
+    while (currentNode->number != position) {
+        previousNode = currentNode;
+        currentNode = currentNode->next;
+    }
+    for (int i = 1; i < m; ++i) {
+        previousNode = currentNode;
+        currentNode = currentNode->next;
+    }
+    position = currentNode->next->number;
+    previousNode->next = currentNode->next;
+    if (previousNode == previousNode->next) {
+        *exitCode = 0;
+        free(currentNode);
+        free(previousNode);
+        return position;
+    }
+    if (list->head == currentNode) {
+        list->head = currentNode->next;
+        Node* temp = list->head;
+        while (temp->next != currentNode) {
+            temp = temp->next;
+        }
+        temp->next = list->head;
+    }
+    free(currentNode);
+    return position;
+}
+
+bool isAlone(CycleList* list) {
+    return list->head == list->head->next;
+}
+
 int top(CycleList* list) {
-    return list->head->next->next->next->value;
+    Node* a = list->head;
+    for (int i = 0; i < 3; ++i) {
+        printf("%d ", a->number);
+        a = a->next;
+    }
+    return 0;
 }
