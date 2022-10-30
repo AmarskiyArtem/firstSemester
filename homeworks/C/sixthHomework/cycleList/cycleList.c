@@ -51,7 +51,7 @@ int deleteElement(CycleList* list, int position, int m, int* exitCode) {
         currentNode = currentNode->next;
     }
     position = currentNode->next->number;
-    if (currentNode->next = previousNode) {
+    if (currentNode->next == previousNode) {
         *exitCode = 0;
         free(currentNode);
         free(previousNode);
@@ -65,6 +65,7 @@ int deleteElement(CycleList* list, int position, int m, int* exitCode) {
         }
         temp->next = list->head;
     }
+    previousNode->next = currentNode->next;
     free(currentNode);
     return position;
 }
