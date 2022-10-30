@@ -3,7 +3,7 @@
 #include <stdio.h>
 
 void main() {
-    printf("Input (n) amount of warriors:\n");
+    printf("Input amount of warriors (n):\n");
     int n = 0;
     scanf_s("%d", &n);
     if (n <= 0) {

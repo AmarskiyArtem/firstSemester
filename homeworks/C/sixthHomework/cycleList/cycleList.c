@@ -51,8 +51,7 @@ int deleteElement(CycleList* list, int position, int m, int* exitCode) {
         currentNode = currentNode->next;
     }
     position = currentNode->next->number;
-    previousNode->next = currentNode->next;
-    if (previousNode == previousNode->next) {
+    if (currentNode->next = previousNode) {
         *exitCode = 0;
         free(currentNode);
         free(previousNode);
@@ -68,17 +67,4 @@ int deleteElement(CycleList* list, int position, int m, int* exitCode) {
     }
     free(currentNode);
     return position;
-}
-
-bool isAlone(CycleList* list) {
-    return list->head == list->head->next;
-}
-
-int top(CycleList* list) {
-    Node* a = list->head;
-    for (int i = 0; i < 3; ++i) {
-        printf("%d ", a->number);
-        a = a->next;
-    }
-    return 0;
 }

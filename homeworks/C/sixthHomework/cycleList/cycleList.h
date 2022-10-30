@@ -8,7 +8,3 @@ CycleList* createCycleList(int amountOfWarriors);
 
 //delete m-th element, return the position from which the next countdown 
 int deleteElement(CycleList* list, int position, int m, int* exitCode);
-
-bool isAlone(CycleList* list);
-
-int top(CycleList* list);
