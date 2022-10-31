@@ -37,5 +37,8 @@
     <Text Include="arrayForSorting.txt">
       <Filter>Файлы ресурсов</Filter>
     </Text>
+    <Text Include="test.txt">
+      <Filter>Файлы ресурсов</Filter>
+    </Text>
   </ItemGroup>
 </Project>
