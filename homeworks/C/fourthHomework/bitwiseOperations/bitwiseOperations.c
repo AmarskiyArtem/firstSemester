@@ -1,5 +1,6 @@
 ﻿#include <stdio.h>
 #include <locale.h>
+#include <stdbool.h>
 #define sizeOfArrayWithBinaryNumber sizeof(int) * 8
 
 void arrayPrint(int* array, int arraySize) {
@@ -34,9 +35,28 @@ void sumOfTwoBinaryNumbers(int* firstNumber, int* secondNumber, int* sumResult) 
     }
 }
 
+bool converterTest(void) {
+    int number[sizeOfArrayWithBinaryNumber] = { 0 };
+    binaryConverter(&number[0], 5);
+    return (number[sizeOfArrayWithBinaryNumber - 1] == 1) && (number[sizeOfArrayWithBinaryNumber - 2] == 0) 
+        && (number[sizeOfArrayWithBinaryNumber - 3] == 1);
+}
+
+bool decimalTest(void) {
+    int number[sizeOfArrayWithBinaryNumber] = { 0 };
+    binaryConverter(&number[0], 10);
+    return (decimalConverter(&number[0]) == 10);
+}
+bool tests(void) {
+    return converterTest() && decimalTest();
+}
+
 void main() {
     setlocale(LC_ALL, "RU");
-    
+    if (!tests()) {
+        printf("Тесты не робят");
+        return;
+    }
     printf("Введите первое число:\n");
     int firstNumber = 0;
     scanf_s("%d", &firstNumber);
