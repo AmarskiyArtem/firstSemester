@@ -52,7 +52,7 @@ int insert(Node* node, int key, char* value) {
             strcpy(newValue, value);
             temp->key = key;
             temp->value = newValue;
-            temp->parent = NULL;
+            temp->parent = node;
             temp->right = NULL;
             temp->left = NULL;
             node->left = temp;
@@ -113,3 +113,16 @@ int addKey(Tree* tree, int key, char* value) {
     return 0;
 }
 
+char* getValueNode(Node* node, int key) {
+    if (node == NULL) {
+        return NULL;
+    }
+    if (key == node->key) {
+        return node->value;
+    }
+    (key < node->key) ? getValueNode(node->left, key) : getValueNode(node->right, key);
+}
+
+char* getValue(Tree* tree, int key) {
+    return getValueNode(tree->root, key);
+}

@@ -27,6 +27,7 @@ void main() {
     a1 = 3;
     char c3[] = "vnvnjs";
     addKey(tree, a1, c3);
+    printf("%s", getValue(tree, 3));
 }
 
 //void main() {
@@ -49,7 +50,7 @@ void main() {
 //                char value[MAX_ARRAY_LENGTH] = { 0 };
 //                printf("Input value:\n");
 //                scanf_s("%100s", value, (unsigned)sizeof(value));
-//                //добавление элемента
+//                addKey(tree, key, value);
 //                break;
 //            }
 //            case 2: {

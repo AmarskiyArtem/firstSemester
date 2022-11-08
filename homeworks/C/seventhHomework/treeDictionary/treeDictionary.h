@@ -15,3 +15,4 @@ bool isKeyInTree(Tree* tree, int key);
 
 bool isEmpty(Tree* tree);
 
+char* getValue(Tree* tree, int key);
