@@ -126,3 +126,7 @@ char* getValueNode(Node* node, int key) {
 char* getValue(Tree* tree, int key) {
     return getValueNode(tree->root, key);
 }
+
+bool isKeyInTree(Tree* tree, int key) {
+    return getValueNode(tree->root, key) != NULL;
+}

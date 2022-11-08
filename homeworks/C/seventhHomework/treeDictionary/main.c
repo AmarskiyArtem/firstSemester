@@ -27,7 +27,8 @@ void main() {
     a1 = 3;
     char c3[] = "vnvnjs";
     addKey(tree, a1, c3);
-    printf("%s", getValue(tree, 3));
+    //printf("%s", getValue(tree, 3));
+    isKeyInTree(tree, 4) ? printf("YES") : printf("NO");
 }
 
 //void main() {
@@ -57,10 +58,8 @@ void main() {
 //                int key = 0;
 //                printf("Input key:\n");
 //                scanf_s("%d", &key);
-//                char value[MAX_ARRAY_LENGTH] = { 0 };
-//                printf("Input value:\n");
-//                scanf_s("%100s", value, (unsigned)sizeof(value));
-//                //поиск элемента
+//                if (getValue(tree, key) == NULL) {
+//                }
 //                break; 
 //            }
 //            case 3: {
