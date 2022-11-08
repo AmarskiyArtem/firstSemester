@@ -1,6 +1,8 @@
-﻿#pragma once
+﻿#define _CRT_SECURE_NO_WARNINGS
+#pragma once
 #include "treeDictionary.h"
 #include <malloc.h>
+#include <string.h>
 
 typedef struct Node {
     int key;
@@ -23,3 +25,10 @@ Tree* createTree(void) {
     return tree;
 }
 
+Node* findNode(Tree* tree, int key) {
+    Node* currentNode = tree->root;
+}
+
+bool isEmpty(Tree* tree) {
+    return tree->root == NULL;
+}
