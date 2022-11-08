@@ -18,6 +18,15 @@ void main() {
     int a = 6;
     char b[] = "vnfdj";
     addKey(tree, a, b);
+    int a1 = 5;
+    char c[] = "vjanvnjs";
+    addKey(tree, a1, c);
+    a1 = 8;
+    char c2[] = "vjanvs";
+    addKey(tree, a1, c2);
+    a1 = 3;
+    char c3[] = "vnvnjs";
+    addKey(tree, a1, c3);
 }
 
 //void main() {

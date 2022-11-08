@@ -14,3 +14,4 @@ int addKey(Tree* tree, int key, char* value);
 bool isKeyInTree(Tree* tree, int key);
 
 bool isEmpty(Tree* tree);
+
