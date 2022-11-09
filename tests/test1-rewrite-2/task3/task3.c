@@ -39,7 +39,9 @@ bool test(void) {
         return false;
     }
     for (int i = 0; i < dataLength; ++i) {
-        fscanf(file, "%c", &data[i]);
+        if (fscanf(file, "%c", &data[i]) == feof) {
+            return false;
+        };
     }
     fclose(file);
     int testStringMaxSize = (int)strlen(data);
@@ -86,7 +88,10 @@ void main(void) {
         return;
     }
     for (int i = 0; i < dataLength; ++i) {
-        fscanf(file, "%c", &data[i]);
+        if (fscanf(file, "%c", &data[i]) == feof) {
+            printf("File error");
+            return;
+        };
     }
     fclose(file);
     int resultStringMaxSize = (int) strlen(data);

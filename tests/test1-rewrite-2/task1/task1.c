@@ -45,7 +45,7 @@ void main() {
         printf("Enter the length of the string: ");
         scanResult = scanf("%d", &stringLength);
         if (!scanResult) {
-            printf("Number (>0) is required! Try again!");
+            printf("Number (>0) is required! Try again!\n");
             scanf("%*[^\n]");
         }
     }
