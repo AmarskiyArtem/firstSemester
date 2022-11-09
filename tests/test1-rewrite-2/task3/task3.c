@@ -49,7 +49,14 @@ bool test(void) {
     }
     resultString = deletingExtraSymbols(data, resultString, testStringMaxSize);
     char rigthAnswer[] = "afgba";
-    return strcmp(resultString, rigthAnswer) == 0;
+    if (strcmp(resultString, rigthAnswer) == 0) {
+        free(data);
+        free(resultString);
+        return true;
+    }
+    free(data);
+    free(resultString);
+    return false;
 }
 
 void main(void) {
@@ -91,4 +98,6 @@ void main(void) {
     resultString = deletingExtraSymbols(data, resultString, resultStringMaxSize);
     printf("Origin string: %s\n", data);
     printf("New string: %s\n", resultString);
+    free(data);
+    free(resultString);
 }
