@@ -28,7 +28,9 @@ void main() {
     char c3[] = "vnvnjs";
     addKey(tree, a1, c3);
     //printf("%s", getValue(tree, 3));
-    isKeyInTree(tree, 4) ? printf("YES") : printf("NO");
+    isKeyInTree(tree, 3) ? printf("YES") : printf("NO");
+    deleteKey(tree, 3);
+    isKeyInTree(tree, 3) ? printf("YES") : printf("NO");
 }
 
 //void main() {
