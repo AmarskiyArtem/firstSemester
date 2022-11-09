@@ -32,7 +32,7 @@ bool isEmpty(Tree* tree) {
 int insert(Node* node, int key, char* value) {
     if (key == node->key) {
         free(node->value);
-        char* newValue = calloc(strlen(value), sizeof(char));
+        char* newValue = calloc(strlen(value) + 1, sizeof(char));
         if (newValue == NULL) {
             return -1;
         }
@@ -46,7 +46,7 @@ int insert(Node* node, int key, char* value) {
             if (temp == NULL) {
                 return -1;
             }
-            char* newValue = calloc(strlen(value), sizeof(char));
+            char* newValue = calloc(strlen(value) + 1, sizeof(char));
             if (newValue == NULL) {
                 return -1;
             }
@@ -69,7 +69,7 @@ int insert(Node* node, int key, char* value) {
             if (temp == NULL) {
                 return -1;
             }
-            char* newValue = calloc(strlen(value), sizeof(char));
+            char* newValue = calloc(strlen(value) + 1, sizeof(char));
             if (newValue == NULL) {
                 return -1;
             }
@@ -95,7 +95,7 @@ int addKey(Tree* tree, int key, char* value) {
         if (temp == NULL) {
             return -1;
         }
-        char* newValue = calloc(strlen(value), sizeof(char));
+        char* newValue = calloc(strlen(value) + 1, sizeof(char));
         if (newValue == NULL) {
             return -1;
         }
@@ -122,13 +122,7 @@ Node* findNodeByKey(Node* node, int key) {
         if (node->key == key) {
             return node;
         }
-        //(node->key > key) ? node = node->left : node = node->right;
-        if (key < node->key) {
-            node = node->left;
-        }
-        else {
-            node = node->right;
-        }
+        (key < node->key) ? (node = node->left) : (node = node->right);
     }
     return NULL;
 }
@@ -164,41 +158,41 @@ int deleteKey(Tree* tree, int key) {
     if (nodeForDeleting->left == NULL && nodeForDeleting->right == NULL) {
         if (nodeForDeleting->parent->left == nodeForDeleting) {
             nodeForDeleting->parent->left = NULL;
-//            free(nodeForDeleting->value);
+            free(nodeForDeleting->value);
             free(nodeForDeleting);
             return 0;
         }
         nodeForDeleting->parent->right = NULL;
-       // free(nodeForDeleting->value);
+        free(nodeForDeleting->value);
         free(nodeForDeleting);
         return 0;
     }
     if (nodeForDeleting->left == NULL && nodeForDeleting->right != NULL) {
         if (nodeForDeleting->parent->left == nodeForDeleting) {
             nodeForDeleting->parent->left = nodeForDeleting->right;
-           // free(nodeForDeleting->value);
+            free(nodeForDeleting->value);
             free(nodeForDeleting);
             return 0;
         }
         nodeForDeleting->parent->right = nodeForDeleting->right;
-     //   free(nodeForDeleting->value);
+        free(nodeForDeleting->value);
         free(nodeForDeleting);
         return 0;
     }
     if (nodeForDeleting->left != NULL && nodeForDeleting->right == NULL) {
         if (nodeForDeleting->parent->left == nodeForDeleting) {
             nodeForDeleting->parent->left = nodeForDeleting->left;
-        //    free(nodeForDeleting->value);
+            free(nodeForDeleting->value);
             free(nodeForDeleting);
             return 0;
         }
         nodeForDeleting->parent->right = nodeForDeleting->left;
-    //    free(nodeForDeleting->value);
+        free(nodeForDeleting->value);
         free(nodeForDeleting);
         return 0;
     }
     Node* mostRight = getMostRight(nodeForDeleting);
-  //  free(nodeForDeleting->value);
+    free(nodeForDeleting->value);
     nodeForDeleting->value = mostRight->value;
     if (mostRight->left != NULL) {
         mostRight->left->parent = mostRight->parent;
