@@ -54,8 +54,18 @@ int evenElementsBubbleSort(int* array, int arrayLength) {
     return 0;
 }
 
-int main(void) {
+bool test(void) {
+    int testArray[5] = { 5, 4, 3, 2, 1 };
+    evenElementsBubbleSort(&testArray, 5);
+    return testArray[0] == 5 && testArray[1] == 2 && testArray[2] == 3 && testArray[3] == 4 && testArray[4] == 1;
+}
+
+void main(void) {
     srand((unsigned)time(NULL));
+    if (!test()) {
+        printf("Tests problems");
+        return;
+    }
     int arrayLength = 5 + rand() % 5;
     int* array = (int*)calloc(arrayLength, sizeof(int));
     if (array == NULL) {
