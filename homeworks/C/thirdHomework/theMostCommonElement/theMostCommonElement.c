@@ -13,6 +13,63 @@ void swap(int* a, int* b) {
     *a = *a ^ *b;
 }
 
+bool isSorted(int* array, int arraySize) {
+    for (int i = 0; i < arraySize - 1; ++i) {
+        if (array[i] > array[i + 1]) {
+            return false;
+        }
+    }
+    return true;
+}
+
+void arrayPrint(int* array, int arraySize) {
+    for (int i = 0; i < arraySize; ++i) {
+        printf("%d ", array[i]);
+    }
+}
+
+bool qSortTests(void) {
+    int arrayForTestsLength = 3 + rand() % 40;
+    int* arrayForTests = (int*)calloc(arrayForTestsLength, sizeof(int));
+    if (arrayForTests == NULL) {
+        printf("MEMORY PANICCCC");
+        return false;
+    }
+    int* arrayForTestsCopy = (int*)calloc(arrayForTestsLength, sizeof(int));
+    if (arrayForTestsCopy == NULL) {
+        printf("MEMORY PANICCCC");
+        free(arrayForTests);
+        return false;
+    }
+    for (int i = 0; i < 3; ++i) {
+        for (int i = 0; i < arrayForTestsLength; ++i) {
+            arrayForTests[i] = -100 + rand() % 200;
+            arrayForTestsCopy[i] = arrayForTests[i];
+        }
+        quickSort(&arrayForTests[0], 0, arrayForTestsLength - 1);
+        if (!isSorted(&arrayForTests[0], arrayForTestsLength)) {
+            printf("Sorting error\n Origin array:\n");
+            arrayPrint(&arrayForTestsCopy[0], arrayForTestsLength);
+            printf("\nWrong sorted array:\n");
+            arrayPrint(&arrayForTests[0], arrayForTestsLength);
+            free(arrayForTests);
+            free(arrayForTestsCopy);
+            return false;
+        }
+    }
+    free(arrayForTests);
+    free(arrayForTestsCopy);
+    return true;
+}
+
+bool mostCommonTests(void) {
+    return true;
+}
+
+bool tests(void) {
+    return mostCommonTests() && qSortTests();
+}
+
 int partition(int* array, int low, int high) {
     int pivot = array[high];
     int i = (low - 1);
@@ -55,6 +112,10 @@ int mostCommon(int* array, int arrayLength) {
 
 void main() {
     srand((unsigned)time(NULL));
+    if (!tests()) {
+        printf("tests failed");
+        return;
+    }
     int arrayLength = 15;
     int* array = (int*)calloc(arrayLength, sizeof(int));
     if (array == NULL) {
