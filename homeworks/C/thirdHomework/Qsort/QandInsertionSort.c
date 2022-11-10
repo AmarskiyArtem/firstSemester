@@ -1,8 +1,8 @@
-﻿#include<stdio.h>
-#include<malloc.h>
-#include<stdlib.h>
-#include<time.h>
-#include<stdbool.h>
+﻿#include <stdio.h>
+#include <malloc.h>
+#include <stdlib.h>
+#include <time.h>
+#include <stdbool.h>
 
 void swap(int* a, int* b) {     
     if (a == b) {
@@ -19,7 +19,7 @@ void arrayPrint(int* array, int arraySize) {
     }
 }
 
-bool sortChecker(int* array, int arraySize) {
+bool isSorted(int* array, int arraySize) {
     for (int i = 0; i < arraySize - 1; ++i) {
         if (array[i] > array[i + 1]) {
             return false;
@@ -60,19 +60,19 @@ void quickSort(int* array, int low, int high) {
 }
 
 bool tests(void) {
+    int arrayForTestsLength = 3 + rand() % 40;
+    int* arrayForTests = (int*)calloc(arrayForTestsLength, sizeof(int));
+    if (arrayForTests == NULL) {
+        printf("MEMORY PANICCCC");
+        return false;
+    }
+    int* arrayForTestsCopy = (int*)calloc(arrayForTestsLength, sizeof(int));
+    if (arrayForTestsCopy == NULL) {
+        printf("MEMORY PANICCCC");
+        free(arrayForTests);
+        return false;
+    }
     for (int i = 0; i < 3; ++i) {
-        int arrayForTestsLength = 3 + rand() % 40;
-        int* arrayForTests = (int*)calloc(arrayForTestsLength, sizeof(int));
-        if (arrayForTests == NULL) {
-            printf("MEMORY PANICCCC");
-            return false;
-        }
-        int* arrayForTestsCopy = (int*)calloc(arrayForTestsLength, sizeof(int));
-        if (arrayForTestsCopy == NULL) {
-            printf("MEMORY PANICCCC");
-            free(arrayForTests);
-            return false;
-        }
         for (int i = 0; i < arrayForTestsLength; ++i) {
             arrayForTests[i] = -100 + rand() % 200;
             arrayForTestsCopy[i] = arrayForTests[i];
@@ -80,7 +80,7 @@ bool tests(void) {
         arrayForTestsLength <= 10 ? insertionSort(&arrayForTests[0], arrayForTestsLength) : 
             quickSort(&arrayForTests[0], 0, arrayForTestsLength - 1);
         
-        if (!sortChecker(&arrayForTests[0], arrayForTestsLength)) {
+        if (!isSorted(&arrayForTests[0], arrayForTestsLength)) {
             printf("Sorting error\n Origin array:\n");
             arrayPrint(&arrayForTestsCopy[0], arrayForTestsLength);
             printf("\nWrong sorted array:\n");
@@ -90,12 +90,15 @@ bool tests(void) {
             return false;
         }
     }
+    free(arrayForTests);
+    free(arrayForTestsCopy);
     return true;
 }
 
 void main() {
     srand((unsigned)time(NULL));
     if (!tests()) {
+        printf("tests failed");
         return;
     }
 
@@ -105,14 +108,14 @@ void main() {
         printf("MEMORY PANICC");
         return;
     }
-    printf("original array: \n");
+    printf("Original array: \n");
     for (int i = 0; i < arrayLength; ++i) {
         array[i] = -100 + rand() % 200;
         printf("%d ", array[i]);
     }
 
     arrayLength <= 10 ? insertionSort(&array[0], arrayLength) : quickSort(&array[0], 0, arrayLength - 1);
-    printf("\nsorted Array:\n");
+    printf("\nSorted Array:\n");
     arrayPrint(&array[0], arrayLength);
     free(array);
 }
