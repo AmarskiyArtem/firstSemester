@@ -5,7 +5,7 @@
 #include <time.h>
 #include <malloc.h>
 
-#define ARRAY_LENGTH 5
+#define ARRAY_LENGTH 10
 
 void swap(int* a, int* b) {
     if (a == b) {
@@ -42,7 +42,7 @@ void halfQSort(int* array, int arraySize, int pivot) {
 
 bool isHalfing(int* array, int arraySize, int pivot) {
     int i = 0;
-    while (array[i] <= pivot) {
+    while (array[i] < pivot) {
         ++i;
     }
     while (i < arraySize && array[i] >= pivot) {
@@ -57,8 +57,9 @@ bool tests(void) {
         for (int j = 0; j < ARRAY_LENGTH; ++j) {
             testArray[j] = 20 + rand() % 100;
         }
-        halfQSort(&testArray[0], ARRAY_LENGTH, testArray[0]);
-        if (!isHalfing(&testArray[0], ARRAY_LENGTH, testArray[0])) {
+        int pivot = testArray[0];
+        halfQSort(&testArray[0], ARRAY_LENGTH, pivot);
+        if (!isHalfing(&testArray[0], ARRAY_LENGTH, pivot)) {
             return false;
         }
     }
