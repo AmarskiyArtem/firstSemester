@@ -41,9 +41,11 @@ void main() {
     setlocale(LC_ALL, "RU");
     if (!testsForExponentiationStandart()) {
         printf("АААААААА ПАНИКА 1 ТЕСТ НЕ ПРОШЕЛ\n");
+        return;
     }
     if (!testsForExponentiationFast()) {
         printf("АААААААА ПАНИКА 2 ТЕСТ НЕ ПРОШЕЛ\n");
+        return;
     }
     int number = 0;
     printf("Введите число\n");
