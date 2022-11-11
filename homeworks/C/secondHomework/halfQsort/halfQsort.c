@@ -16,8 +16,8 @@ void swap(int* a, int* b) {
     *a = *a ^ *b;
 }
 
-void arrayPrint(int* array, int arrayarraySize) {
-    for (int i = 0; i < arrayarraySize; ++i) {
+void arrayPrint(int* array, int arraySize) {
+    for (int i = 0; i < arraySize; ++i) {
         printf("%d ", array[i]);
     }
 }

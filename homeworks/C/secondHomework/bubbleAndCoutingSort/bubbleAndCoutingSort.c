@@ -26,7 +26,7 @@ void bubbleSort(int *array, int arraySize) {
     }
 }
 
-void countingSort(int* array, int arraySize) {
+int countingSort(int* array, int arraySize) {
     int maxArrayElement = array[0];
     int minArrayElement = array[0];
     for (int i = 1; i < arraySize; ++i) {
@@ -39,10 +39,8 @@ void countingSort(int* array, int arraySize) {
     }
     int arrayForCountingSize = maxArrayElement - minArrayElement + 1;
     int* arrayForCounting = (int*)calloc(arrayForCountingSize, sizeof(int)); 
-    if (arrayForCounting == NULL)
-    {
-        printf("Всё очень плохо :(");
-        return;
+    if (arrayForCounting == NULL) {
+        return -1;
     }
     for (int i = 0; i < arraySize; ++i) {
         ++arrayForCounting[array[i] - minArrayElement];
@@ -50,10 +48,12 @@ void countingSort(int* array, int arraySize) {
     int temp = 0;
     for (int i = 0; i < arrayForCountingSize; ++i) {
         for (int j = 0; j < arrayForCounting[i]; ++j) {
-            array[temp++] = i + minArrayElement;
+            array[temp] = i + minArrayElement;
+            ++temp;
         }
     }
     free(arrayForCounting);
+    return 0;
 }
 
 void arrayPrint(int* array, int arraySize) {
@@ -79,10 +79,11 @@ bool bubbleSortTests(void) {
     }
     int arrayTwo[20] = { 68, 36, 46, 89, 96, 45, 67, 29, 91, 66, 40, 20, 84, 17, 97, 47, 40, 81, 72, 84 };
     bubbleSort(&arrayTwo[0], 20);
-    if (!isSorted(&arrayTwo[0], 20)) {
+    /*if (!isSorted(&arrayTwo[0], 20)) {
         return false;
     }
-    return true;
+    return true;*/
+    return isSorted(&arrayTwo[0], 20);
 }
 
 bool countingSortTests(void) {
@@ -99,8 +100,6 @@ bool countingSortTests(void) {
     return true;
 }
 
-
-
 void main() {
     setlocale(LC_ALL, "RU");
     int arrayForBubbleSort[ARRAY_LENGTH] = { 0 };
@@ -114,20 +113,19 @@ void main() {
     for (int i = 0; i < ARRAY_LENGTH; ++i) {
         arrayForBubbleSort[i] = -1000 + rand() % 2000;
     }
-    clock_t startBubble;
-    clock_t stopBubble;
-    startBubble = clock();
+    clock_t startBubble = clock();
     bubbleSort(&arrayForBubbleSort[0], ARRAY_LENGTH);
-    stopBubble = clock();
+    clock_t stopBubble = clock();
     printf("Bubble sort required %d seconds\n", (stopBubble - startBubble) / CLK_TCK);
     for (int i = 0; i < ARRAY_LENGTH; ++i) {
         arrayForCountingSort[i] = -1000 + rand() % 2000;
     }
-    clock_t startCounting;
-    clock_t stopCounting;
-    startCounting = clock();
-    countingSort(&arrayForCountingSort[0], ARRAY_LENGTH);
-    stopCounting = clock();
+    clock_t startCounting = clock();
+    if (countingSort(&arrayForCountingSort[0], ARRAY_LENGTH) != 0) {
+        printf("Проблемы с выделением памяти");
+        return;
+    }
+    clock_t stopCounting = clock();
     ((stopCounting - startCounting) / CLK_TCK) != 0 ? 
         printf("Counting sort required %d seconds\n", (stopCounting - startCounting) / CLK_TCK) :
         printf("Counting sort required less than 1 second");

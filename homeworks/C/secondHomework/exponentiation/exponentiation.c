@@ -28,12 +28,12 @@ double exponentiationFast(int number, int power) {
 //tests block
 bool testsForExponentiationStandart(void) {
     return (exponentiationStandart(5, 1) == 5 && exponentiationStandart(4, 0) == 1 && exponentiationStandart(3, 4) == 81 && 
-        (exponentiationStandart(5, -1) - 0.2 < 0.0001) && (exponentiationStandart(2, -2) - 0.25 < 0.001));
+        (fabs(exponentiationStandart(5, -1) - 0.2) < 0.0001) && (fabs(exponentiationStandart(2, -2) - 0.25) < 0.001));
 }
 
 bool testsForExponentiationFast(void) {
     return (exponentiationFast(5, 1) == 5 && exponentiationFast(4, 0) == 1 && exponentiationFast(3, 4) == 81 && 
-        (exponentiationStandart(5, -1) - 0.2 < 0.0001) && (exponentiationStandart(2, -2) - 0.25 < 0.001));
+        (fabs(exponentiationStandart(5, -1) - 0.2) < 0.0001) && (fabs(exponentiationStandart(2, -2) - 0.25) < 0.001));
 }
 //tests block end
 
