@@ -3,7 +3,7 @@
 #include <locale.h>
 #include <stdbool.h>
 #include <time.h>
-#include <malloc.h>
+#include <malloc.h> 
 
 #define ARRAY_LENGTH 10
 
