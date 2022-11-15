@@ -63,12 +63,12 @@ bool tests(void) {
     int arrayForTestsLength = 3 + rand() % 40;
     int* arrayForTests = (int*)calloc(arrayForTestsLength, sizeof(int));
     if (arrayForTests == NULL) {
-        printf("MEMORY PANICCCC");
+        //printf("MEMORY PANICCCC");
         return false;
     }
     int* arrayForTestsCopy = (int*)calloc(arrayForTestsLength, sizeof(int));
     if (arrayForTestsCopy == NULL) {
-        printf("MEMORY PANICCCC");
+        //printf("MEMORY PANICCCC");
         free(arrayForTests);
         return false;
     }
@@ -79,7 +79,6 @@ bool tests(void) {
         }
         arrayForTestsLength <= 10 ? insertionSort(&arrayForTests[0], arrayForTestsLength) : 
             quickSort(&arrayForTests[0], 0, arrayForTestsLength - 1);
-        
         if (!isSorted(&arrayForTests[0], arrayForTestsLength)) {
             printf("Sorting error\n Origin array:\n");
             arrayPrint(&arrayForTestsCopy[0], arrayForTestsLength);
@@ -113,7 +112,6 @@ void main() {
         array[i] = -100 + rand() % 200;
         printf("%d ", array[i]);
     }
-
     arrayLength <= 10 ? insertionSort(&array[0], arrayLength) : quickSort(&array[0], 0, arrayLength - 1);
     printf("\nSorted Array:\n");
     arrayPrint(&array[0], arrayLength);
