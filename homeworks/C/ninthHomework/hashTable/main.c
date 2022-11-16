@@ -5,10 +5,13 @@
 void main() {
     List* list = createList();
     isEmpty(list) ? printf("Yes") : printf("No");
-    char *a = "fioobnsdf";
+    char* a = "fioobnsdf";
     push(list, a);
     char* b = "fhpuranvpon";
     push(list, b);
-    printf("\n%s", top(list));
+    push(list, b);
+    char* c = "csdjpvnpb";
+    push(list, c);
+    printList(list);
     deleteList(list);
 }

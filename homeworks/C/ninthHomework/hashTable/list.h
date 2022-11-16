@@ -9,6 +9,4 @@ void deleteList(List* list);
 
 int push(List* list, char* value);
 
-bool isEmpty(List* list);
-
-char* top(List* list);
+void printList(List* list);
