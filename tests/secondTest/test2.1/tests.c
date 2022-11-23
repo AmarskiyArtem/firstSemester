@@ -8,12 +8,10 @@
 bool emptyTest(void) {
     FILE* file = fopen("emptyInput.txt", "r");
     if (file == NULL) {
-        printf("file not found");
         return false;
     }
     List* list = createList();
     if (list == NULL) {
-        printf("Problems with memory allocation");
         return false;
     }
     while (true) {
@@ -32,12 +30,10 @@ bool emptyTest(void) {
 bool evenTest(void) {
     FILE* file = fopen("testInput1.txt", "r");
     if (file == NULL) {
-        printf("file not found");
         return false;
     }
     List* list = createList();
     if (list == NULL) {
-        printf("Problems with memory allocation");
         return false;
     }
     while (true) {
@@ -56,12 +52,10 @@ bool evenTest(void) {
 bool unevenTest(void) {
     FILE* file = fopen("testInput2.txt", "r");
     if (file == NULL) {
-        printf("file not found");
         return false;
     }
     List* list = createList();
     if (list == NULL) {
-        printf("Problems with memory allocation");
         return false;
     }
     while (true) {
