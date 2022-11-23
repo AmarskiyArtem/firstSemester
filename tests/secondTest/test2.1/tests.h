@@ -1,5 +1,5 @@
 #pragma once
 #include <stdbool.h>
 
-//проверяет, прошли ли все тесты
+//checks whether the tests have passed
 bool isPassed(void);
