@@ -3,17 +3,17 @@
 
 typedef struct List List;
 
-//возвращает указатель на пустой список, NULL, если проблемы с выделением памяти
+//return empty list, NULL, if problems with memory allocation
 List* createList(void);
 
-//удаляет список
+//delete the list
 void deleteList(List* list);
 
-//добавляет элемент в голову, возвращает 0, если успешно, -1 - в противном случае (проблемы с выделением памяти)
+//add element to the head. return 0 if successfully, -1 if not (problems with memory allocation)
 int push(List* list, int value);
 
-//выводит список на экран
+//outputs the list to the console
 void printList(List* list);
 
-//проверяет список на симметричность 
+//checks the list for symmetry
 bool isSymmetric(List* list);
