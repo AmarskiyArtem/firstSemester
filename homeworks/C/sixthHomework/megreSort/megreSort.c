@@ -1,4 +1,6 @@
-﻿#pragma once
+﻿#define _CRT_SECURE_NO_WARNINGS
+
+#pragma once
 #include "mergeSort.h"
 #include <stdio.h>
 #include <string.h>
@@ -38,3 +40,27 @@ void deleteList(List* list) {
     }
 }
 
+
+
+int readFromFile(char* fileName, List* list) {
+    FILE* file = fopen(fileName, "r");
+    if (file == NULL) {
+        return -1;
+    }
+    char name[MAX_SIZE] = { 0 };
+    char number[MAX_SIZE] = { 0 };
+    while (!feof(file)) {
+        fscanf(file, "%s", name);
+        fscanf(file, "%s", number);
+        Node* newNode = malloc(sizeof(Node));
+        if (newNode == NULL) {
+            return -1;
+        }
+        strcpy(newNode->name, name);
+        strcpy(newNode->number, number);
+        newNode->next = list->head;
+        list->head = newNode;
+    }
+    fclose(file);
+    return 0;
+}
