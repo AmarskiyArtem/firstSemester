@@ -33,10 +33,10 @@ bool isEmpty(List* list) {
 }
 
 void deleteList(List* list) {
-    Node* head = list->head;
     while (!isEmpty(list)) {
+        Node* currentHead = list->head;
         list->head = list->head->next;
-        free(head);
+        free(currentHead);
     }
 }
 
@@ -49,9 +49,12 @@ int readFromFile(char* fileName, List* list) {
     }
     char name[MAX_SIZE] = { 0 };
     char number[MAX_SIZE] = { 0 };
-    while (!feof(file)) {
+    while (true) {
         fscanf(file, "%s", name);
         fscanf(file, "%s", number);
+        if (feof(file)) {
+            break;
+        }
         Node* newNode = malloc(sizeof(Node));
         if (newNode == NULL) {
             return -1;
@@ -62,5 +65,17 @@ int readFromFile(char* fileName, List* list) {
         list->head = newNode;
     }
     fclose(file);
+    return 0;
+}
+
+int printList(List* list) {
+    if (isEmpty(list)) {
+        return -1;
+    }
+    Node* node = list->head;
+    while (node != NULL) {
+        printf("%s %s\n", node->name, node->number);
+        node = node->next;
+    }
     return 0;
 }
