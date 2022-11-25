@@ -1,11 +1,13 @@
 ﻿#define _CRT_SECURE_NO_WARNINGS
+
 #include <stdio.h>
 #include <stdbool.h>
 #include <stdlib.h>
 #include <locale.h>
+#include <malloc.h>
+
 #include "qSort.h"
 #include "theMostCommonElement.h"
-#include <malloc.h>
 
 bool test(void) {
     FILE* file = fopen("test.txt", "r");
