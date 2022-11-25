@@ -42,12 +42,16 @@ bool isInArray(int* array, int arrayLength, int lookedFor) {
     int right = arrayLength;
     while (left <= right) {
         int middle = left + (right - left) / 2;
-        if (array[middle] == lookedFor)
+        if (array[middle] == lookedFor) {
             return true;
-        if (array[middle] < lookedFor)
+        }
+
+        if (array[middle] < lookedFor) {
             left = middle + 1;
-        else
+        }
+        else {
             right = middle - 1;
+        }
     }
     return false;
 }
