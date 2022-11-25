@@ -56,10 +56,10 @@ int mostCommon(int* array, int arrayLength) {
     for (int i = 1; i < arrayLength; ++i) {
         if (array[i] == array[i - 1]) {
             currentInARow += 1;
-        }
-        else {
+        } else {
             currentInARow = 1;
         }
+
         if (currentInARow >= maxInARow) {
             maxInARow = currentInARow;
             mostCommonElement = array[i];
@@ -103,9 +103,6 @@ bool qSortTests(void) {
 }
 
 bool mostCommonTests(void) {
-    int testArray1[] = { 0, 1, 7, 4, 6, 3, 6, 8, 9, 5, 4, 9, 3, 6, 2 }; 
-    int testArray2[] = { 5, 8, 2, 3, 7, 3, 4, 7, 0, 0, 5, 9, 2, 3, 8 };
-    int testArray3[] = { 7, 2, 0, 9, 6, 1, 7, 2, 3, 7, 1, 1, 6, 3, 8 };
     int testArray[3][15] = { {0, 1, 7, 4, 6, 3, 6, 8, 9, 5, 4, 9, 3, 6, 2},
                         { 5, 8, 2, 3, 7, 3, 4, 7, 0, 0, 5, 9, 2, 3, 8 },
                         { 7, 2, 0, 9, 6, 1, 7, 2, 3, 7, 1, 1, 6, 3, 8 } };
@@ -130,7 +127,7 @@ void main() {
         printf("tests failed");
         return;
     }
-    int arrayLength = 15;
+    int arrayLength = 15 + rand() % 10;
     int* array = (int*)calloc(arrayLength, sizeof(int));
     if (array == NULL) {
         printf("MEMORY PANICC");
