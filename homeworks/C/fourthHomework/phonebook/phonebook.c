@@ -1,4 +1,5 @@
 ﻿#define _CRT_SECURE_NO_WARNINGS
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
@@ -96,7 +97,7 @@ void main() {
         return;
     }
 
-    char *data[STORAGE_SIZE] = { 0 };
+    char *data[STORAGE_SIZE] = { NULL };
     int currentRecordNumber = 0;
     bool isContinue = true;
     while (isContinue) {
