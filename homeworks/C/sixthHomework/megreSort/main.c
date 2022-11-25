@@ -1,6 +1,5 @@
 #pragma once
-#include "mergeSort.h"
-#include "list.h"
+#include "mergeSortAndList.h"
 #include <stdio.h>
 
 void main(void) {
