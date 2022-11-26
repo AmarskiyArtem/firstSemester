@@ -127,7 +127,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="list.c" />
     <ClCompile Include="phonebook.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="list.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="storage.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

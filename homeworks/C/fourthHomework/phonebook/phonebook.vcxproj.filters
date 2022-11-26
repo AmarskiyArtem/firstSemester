@@ -18,5 +18,18 @@
     <ClCompile Include="phonebook.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="list.c">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="list.h">
+      <Filter>Исходные файлы</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="storage.txt">
+      <Filter>Файлы ресурсов</Filter>
+    </Text>
   </ItemGroup>
 </Project>
