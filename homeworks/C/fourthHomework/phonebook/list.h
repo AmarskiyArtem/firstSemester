@@ -1,4 +1,5 @@
 #pragma once
+#include <stdbool.h>
 
 typedef struct List List;
 
@@ -25,3 +26,6 @@ char* findByName(List* list, char* name);
 
 //возвращает указатель на первую найденную строку с совпадающим номером, NULL, если совпадений нет
 char* findByNumber(List* list, char* number);
+
+//тесты...
+bool tests(void);

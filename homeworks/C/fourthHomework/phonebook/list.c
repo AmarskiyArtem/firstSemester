@@ -125,3 +125,96 @@ char* findByNumber(List* list, char* number) {
     }
     return NULL;
 }
+
+bool listTests(void) {
+    List* testList = createList();
+    if (testList == NULL) {
+        return false;
+    }
+    char testName[] = "aa";
+    char testNumber[] = "456";
+    if (add(testList, &testName[0], &testNumber[0]) != 0) {
+        deleteList(testList);
+        return false;
+    }
+    if (strcmp(testList->head->name, testName) != 0 || strcmp(testList->head->number, testNumber) != 0) {
+        deleteList(testList);
+        return false;
+    }
+    strcpy(testName, "bb");
+    strcpy(testNumber, "123");
+    if (add(testList, &testName[0], &testNumber[0]) != 0) {
+        deleteList(testList);
+        return false;
+    }
+    if (strcmp(testList->head->name, testName) != 0 || strcmp(testList->head->number, testNumber) != 0) {
+        deleteList(testList);
+        return false;
+    }
+    deleteList(testList);
+    return true;
+}
+
+bool testsPhoneBookFunctions(void) {
+    List* testList = createList();
+    if (testList == NULL) {
+        return false;
+    }
+    char testName[] = "aa";
+    char testNumber[] = "456";
+    if (add(testList, &testName[0], &testNumber[0]) != 0) {
+        deleteList(testList);
+        return false;
+    }
+    strcpy(testName, "bb");
+    strcpy(testNumber, "123");
+    if (add(testList, &testName[0], &testNumber[0]) != 0) {
+        deleteList(testList);
+        return false;
+    }
+    char* result = NULL;
+    char* testSearchByNameTrue = "aa";
+    result = findByName(testList, testSearchByNameTrue);
+    if (result == NULL || strcmp(result, testList->head->next->number) != 0) {
+        deleteList(testList);
+        return false;
+    }
+    char* testSearchByNameFalse = "ab";
+    result = findByName(testList, testSearchByNameFalse);
+    if (result != NULL) {
+        deleteList(testList);
+        return false;
+    }
+    char* testSearchByNumberTrue = "123";
+    result = findByNumber(testList, testSearchByNumberTrue);
+    if (result == NULL || strcmp(result, testList->head->name) != 0) {
+        deleteList(testList);
+        return false;
+    }
+    char* testSearchByNumberFalse = "5342758";
+    result = findByNumber(testList, testSearchByNumberFalse);
+    if (result != NULL) {
+        deleteList(testList);
+        return false;
+    }
+    deleteList(testList);
+    return true;
+}
+
+bool readFromFileTest(void) {
+    List* list = createList();
+    if (list == NULL) {
+        return false;
+    }
+    if (readFromFile("test.txt", list) != 0) {
+        deleteList(list);
+        return false;
+    }
+    return strcmp(list->head->name, "second") == 0 && strcmp(list->head->next->name, "firstName") == 0 &&
+        strcmp(list->head->number, "9900") == 0 && strcmp(list->head->next->number, "8800") == 0 &&
+        list->head->next->next == NULL;
+}
+
+bool tests(void) {
+    return listTests() && testsPhoneBookFunctions() && readFromFileTest();
+}

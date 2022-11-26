@@ -23,6 +23,10 @@ void printListOfActions(void) {
 
 void main() {
     setlocale(LC_ALL, "RU");
+    if (!tests()) {
+        printf("Тесты упали");
+        return;
+    }
     List* list = createList();
     readFromFile("storage.txt", list);
     bool isContinue = true;
