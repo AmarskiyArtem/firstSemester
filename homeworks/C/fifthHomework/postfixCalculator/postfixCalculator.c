@@ -1,13 +1,33 @@
 ﻿#pragma once
-#include "../stack/stack.h"
 #include <stdio.h>
 #include <string.h>
-#define maxMathExpressionLength 1000
 
-int postfixCalc(char expression[maxMathExpressionLength], int *errorCode) {
+#include "../stack/stack.h"
+
+#define MAX_MATH_EXPRESSION_LENGTH 1000
+
+bool isCorrectMathExpression(char* expression) {
+    char correctSymbols[] = " 0123456789+-*/";
+    for (int i = 0; i < strlen(expression) - 1; ++i) {
+        if (strchr(correctSymbols, expression[i]) == NULL) {
+            return false;
+        }
+    }
+    return true;
+}
+
+int postfixCalc(char* expression, int *errorCode) {
     *errorCode = 0;
     int result = 0;
+    if (!isCorrectMathExpression(expression) || strlen(expression) - 1 == 0) {
+        *errorCode = -1;
+        return result;
+    }
     Stack* stack = createStack();
+    if (stack == NULL) {
+        *errorCode = -1;
+        return result;
+    }
     char numbers[] = "0123456789";
     char operations[] = "+-*/";
     for (int i = 0; i < strlen(expression) - 1; ++i) {
@@ -23,6 +43,7 @@ int postfixCalc(char expression[maxMathExpressionLength], int *errorCode) {
             }
             else {
                 *errorCode = -1;
+                deleteStack(stack);
                 return result;
             }
             if (!isEmpty(stack)) {
@@ -31,6 +52,7 @@ int postfixCalc(char expression[maxMathExpressionLength], int *errorCode) {
             }
             else {
                 *errorCode = -1;
+                deleteStack(stack);
                 return result;
             }
             switch (expression[i]) {
@@ -57,37 +79,33 @@ int postfixCalc(char expression[maxMathExpressionLength], int *errorCode) {
     pop(stack);
     if (!isEmpty(stack)) {
         *errorCode = -1;
-        deleteStack(stack);
-        return result;
     }
     deleteStack(stack);
     return result;
 }
 
-bool expressionChecker(char expression[maxMathExpressionLength]) {
-    char correctSymbols[] = " 0123456789+-*/";
-    for (int i = 0; i < strlen(expression) - 1; ++i) {
-        if (strchr(correctSymbols, expression[i]) == NULL) {
-            printf("%c", expression[i]);
-            return false;
-        }
+bool tests(void) {
+    int testErrorCode = 0;
+    int testResult = postfixCalc("5 g +", &testErrorCode);
+    if (testErrorCode == 0) {
+        return false;
+    }
+    testResult = postfixCalc("5 7 + 3 * 4 / ", &testErrorCode);
+    if (testErrorCode != 0 || testResult != 9) {
+        return false;
     }
     return true;
 }
+
 void main() {
-    printf("Enter the math expression:\n");
-    char mathExpression[maxMathExpressionLength] = { 0 };
-    fgets(mathExpression, maxMathExpressionLength, stdin);
-    if ((!expressionChecker(mathExpression)) || (strlen(mathExpression) - 1 == 0)) {
-        printf("Incorrect math expression");
+    if (!tests()) {
+        printf("Tests failed\n");
         return;
     }
+    printf("Enter the math expression:\n");
+    char mathExpression[MAX_MATH_EXPRESSION_LENGTH] = { 0 };
+    fgets(mathExpression, MAX_MATH_EXPRESSION_LENGTH, stdin);
     int errorCode = 0;
-    int result = postfixCalc(mathExpression, &errorCode);
-    if (errorCode != 0) {
-        printf("Incorrect math expression");
-    }
-    else {
-        printf("Expression result is %d", result);
-    }
+    int result = postfixCalc(&mathExpression[0], &errorCode);
+    errorCode != 0 ? printf("Incorrect math expression") : printf("Expression result is %d", result);
 }
