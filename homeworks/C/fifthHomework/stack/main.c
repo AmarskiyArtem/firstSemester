@@ -1,9 +1,8 @@
 #pragma once
-#include "stack.h"
 #include <stdio.h>
 
+#include "stack.h"
+
 void main() {
-    Stack* stack = createStack();
-    push(stack, 200);
-    printf("%d", top(stack));
+    tests() ? printf("COOL") : printf("NOT COOL");
 }

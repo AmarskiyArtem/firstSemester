@@ -21,3 +21,5 @@ void deleteStack(Stack* stack);
 //return value of head element
 int top(Stack* stack);
 
+//tests the stack operability
+bool tests(void);
