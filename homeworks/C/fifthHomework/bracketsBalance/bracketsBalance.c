@@ -1,13 +1,15 @@
 ﻿#pragma once
-#include "stack.h"
 #include <stdio.h>
 #include <locale.h>
 #include <stdbool.h>
 #include <stdlib.h>
 #include <string.h>
+
+#include "stack.h"
+
 #define maxBracketsStringLength 100
 
-bool balanceChecker(int length, char string[maxBracketsStringLength]) {
+bool isCorrectBracketSequence(int length, char* string) {
     if (length % 2 == 1) {
         return false;
     }
@@ -43,8 +45,18 @@ bool balanceChecker(int length, char string[maxBracketsStringLength]) {
     return false;
 }
 
+bool tests(void) {
+    return !isCorrectBracketSequence(5, "({})[") && isCorrectBracketSequence(6, "[()]{}") &&
+        isCorrectBracketSequence(4, "()()") && !isCorrectBracketSequence(6, "({[}])") &&
+        !isCorrectBracketSequence(6, "{}}(){");
+}
+
 void main() {
     setlocale(LC_ALL, "RU");
+    if (!tests()) {
+        printf("Тесты упали");
+        return;
+    }
     printf("Введите длину скобочной последовательности:\n");
     int bracketsStringLength = 0;
     scanf_s("%d", &bracketsStringLength);
@@ -55,6 +67,6 @@ void main() {
     printf("Введите скобочную последовательность:\n");
     char bracketsString[maxBracketsStringLength] = { 0 };
     scanf_s("%100s", bracketsString, (unsigned)sizeof(bracketsString));
-    bool result = balanceChecker(bracketsStringLength, bracketsString);
+    bool result = isCorrectBracketSequence(bracketsStringLength, &bracketsString[0]);
     result ? printf("Верная скобочная последовательность") : printf("Неверная скобочная последовательность");
 }

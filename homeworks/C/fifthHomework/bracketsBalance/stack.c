@@ -1,6 +1,8 @@
-#include "stack.h"
+#pragma once
 #include <stdio.h>
 #include <stdlib.h>
+
+#include "stack.h"
 
 typedef struct Node {
     int value;
