@@ -1,48 +1,65 @@
 ﻿#pragma once
-#include "../stack/stack.h"
 #include <stdio.h>
 #include <string.h>
-#define maxMathExpressionLength 1000
+
+#include "../stack/stack.h"
+
+#define MAX_MATH_EXPRESSION_LENGTH 1000
+
+
+bool isCorrectMathExpression(char* expression) {
+    char correctSymbols[] = " 0123456789+-*/()";
+    for (int i = 0; i < strlen(expression) - 1; ++i) {
+        if (strchr(correctSymbols, expression[i]) == NULL) {
+            return false;
+        }
+    }
+    return true;
+}
 
 int operationsPriory(char operation) {
-    switch (operation) {
-    case '+':
-    case '-': {
-        return 1;
-    }
-    case '(': {
-        return 0;
-    }
-    default: {
-        return 2;
-    }
+        switch (operation) {
+        case '+':
+        case '-': {
+            return 1;
+        }
+        case '(': {
+            return 0;
+        }
+        default: {
+            return 2;
+        }
     }
 }
 
-void postfixToInfix(char postfixExpression[maxMathExpressionLength], char* infixExpression, int* errorCode) {
+void infixToPostfix(char* infixExpression, char* postfixExpression, int* errorCode) {
     *errorCode = 0;
+    if ((!isCorrectMathExpression(infixExpression)) || (strlen(infixExpression) - 1 == 0)) {
+        *errorCode = -3;
+        return false;
+    }
     Stack* stack = createStack();
     if (stack == NULL) {
         *errorCode = -2;
         return;
     }
-    int infixIndex = 0;
+    int postfixIndex = 0;
     char numbers[] = "0123456789";
     char operations[] = "+-*/";
-    for (int i = 0; i < strlen(postfixExpression); ++i) {
-        if (strchr(numbers, postfixExpression[i]) != NULL) {
-            infixExpression[infixIndex++] = postfixExpression[i];
-            infixExpression[infixIndex++] = ' ';
+    for (int i = 0; i < strlen(infixExpression); ++i) {
+        if (strchr(numbers, infixExpression[i]) != NULL) {
+            postfixExpression[postfixIndex++] = infixExpression[i];
+            postfixExpression[postfixIndex++] = ' ';
             continue;
         }
-        if (postfixExpression[i] == '(') {
-            push(stack, postfixExpression[i]);
+        if (infixExpression[i] == '(') {
+            push(stack, infixExpression[i]);
             continue;
         }
-        if (postfixExpression[i] == ')') {
+        if (infixExpression[i] == ')') {
             while (!isEmpty(stack) && top(stack) != '(') {
-                infixExpression[infixIndex++] = top(stack);
-                infixExpression[infixIndex++] = ' ';
+                postfixExpression[postfixIndex++] = top(stack);
+                postfixExpression[postfixIndex++] = ' ';
                 pop(stack);
             }
             if (isEmpty(stack)) {
@@ -53,20 +70,20 @@ void postfixToInfix(char postfixExpression[maxMathExpressionLength], char* infix
             pop(stack);
             continue;
         }
-        if (strchr(operations, postfixExpression[i]) != NULL) {
-            int currentPriority = operationsPriory(postfixExpression[i]);
+        if (strchr(operations, infixExpression[i]) != NULL) {
+            int currentPriority = operationsPriory(infixExpression[i]);
             while ((!isEmpty(stack)) && (operationsPriory(top(stack)) >= currentPriority)) {
-                infixExpression[infixIndex++] = top(stack);
-                infixExpression[infixIndex++] = ' ';
+                postfixExpression[postfixIndex++] = top(stack);
+                postfixExpression[postfixIndex++] = ' ';
                 pop(stack);
             }
-            push(stack, postfixExpression[i]);
+            push(stack, infixExpression[i]);
         }
     }
     if (!isEmpty(stack)) {
-        infixExpression[infixIndex++] = top(stack);
+        postfixExpression[postfixIndex++] = top(stack);
         pop(stack);
-        infixExpression[infixIndex] = '\0';
+        postfixExpression[postfixIndex] = '\0';
     }
     else {
         *errorCode = -1;
@@ -74,37 +91,41 @@ void postfixToInfix(char postfixExpression[maxMathExpressionLength], char* infix
     if (!isEmpty(stack)) {
         *errorCode = -1;
     }
-    infixExpression[infixIndex] = '\0';
+    postfixExpression[postfixIndex] = '\0';
     deleteStack(stack);
 }
 
-bool expressionChecker(char expression[maxMathExpressionLength]) {
-    char correctSymbols[] = " 0123456789+-*/()";
-    for (int i = 0; i < strlen(expression) - 1; ++i) {
-        if (strchr(correctSymbols, expression[i]) == NULL) {
-            printf("%c", expression[i]);
-            return false;
-        }
-    }
-    return true;
+bool tests(void) {
+    char testOne[] = "(5 + 3)*(1 +2)";
+    char testTwo[] = "(3 + 4";
+    char testThree[] = "7 - 8)";
+    char testFour[] = "4 - 2*8 / 6 + 1";
+    char resultOne[MAX_MATH_EXPRESSION_LENGTH] = { 0 };
+    char resultTwo[MAX_MATH_EXPRESSION_LENGTH] = { 0 };
+    char resultThree[MAX_MATH_EXPRESSION_LENGTH] = { 0 };
+    char resultFour[MAX_MATH_EXPRESSION_LENGTH] = { 0 };
+    int errorCodeOne = 0;
+    int errorCodeTwo = 0;
+    int errorCodeThree = 0;
+    int errorCodeFour = 0;
+    infixToPostfix(&testOne[0], &resultOne[0], &errorCodeOne);
+    infixToPostfix(&testTwo[0], &resultTwo[0], &errorCodeTwo);
+    infixToPostfix(&testThree[0], &resultThree[0], &errorCodeThree);
+    infixToPostfix(&testFour[0], &resultFour[0], &errorCodeFour);
+    return strcmp(&resultOne[0], "5 3 + 1 2 + *") == 0 && errorCodeTwo != 0 && errorCodeThree != 0
+        && strcmp(&resultFour[0], "4 2 8 * 6 / - 1 +") == 0;
 }
 
 void main() {
-    printf("Enter the math expression in postfix form:\n");
-    char mathExpressionInPostfixForm[maxMathExpressionLength] = { 0 };
-    fgets(mathExpressionInPostfixForm, maxMathExpressionLength, stdin);
-    if ((!expressionChecker(mathExpressionInPostfixForm)) || (strlen(mathExpressionInPostfixForm) - 1 == 0)) {
-        printf("Incorrect math expression");
+    if (!tests()) {
+        printf("tests failed");
         return;
     }
+    printf("Enter the math expression in infix form:\n");
+    char mathExpressionInInfixForm[MAX_MATH_EXPRESSION_LENGTH] = { 0 };
+    fgets(mathExpressionInInfixForm, MAX_MATH_EXPRESSION_LENGTH, stdin);
     int errorCode = 0;
-    char mathExpressionInInfixForm[maxMathExpressionLength] = { 0 };
-    postfixToInfix(mathExpressionInPostfixForm,&mathExpressionInInfixForm[0], &errorCode);
-    if (errorCode != 0) {
-        printf("Error code problem\n");
-        printf("Incorrect math expression\n"); 
-    }
-    else {
-        printf("Infix form: %s", mathExpressionInInfixForm);
-    }
+    char mathExpressionInPostfixForm[MAX_MATH_EXPRESSION_LENGTH] = { 0 };
+    infixToPostfix(&mathExpressionInInfixForm[0], &mathExpressionInPostfixForm[0], &errorCode);
+    errorCode != 0 ? printf("Incorrect math expression") : printf("Postfix form: %s", mathExpressionInPostfixForm);
 }
