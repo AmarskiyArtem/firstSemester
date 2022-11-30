@@ -1,11 +1,12 @@
 ﻿#define _CRT_SECURE_NO_WARNINGS
 
 #pragma once
-#include "mergeSortAndList.h"
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 #include <stdbool.h>
+
+#include "mergeSortAndList.h"
 
 #define MAX_SIZE 256
 
@@ -55,9 +56,10 @@ int readFromFile(char* fileName, List* list) {
     char name[MAX_SIZE] = { 0 };
     char number[MAX_SIZE] = { 0 };
     while (true) {
-        fscanf(file, "%s", name);
-        fscanf(file, "%s", number);
-        if (feof(file)) {
+        if (fscanf(file, "%s", name) == EOF) {
+            break;
+        }
+        if (fscanf(file, "%s", number) == EOF) {
             break;
         }
         Node* newNode = malloc(sizeof(Node));
@@ -84,3 +86,4 @@ int printList(List* list) {
     }
     return 0;
 }
+
