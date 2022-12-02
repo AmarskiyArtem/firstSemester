@@ -21,30 +21,34 @@ Stack* createStack(void) {
     return stack;
 }
 
-int push(Stack* stack, int value) {
+ErrorCode push(Stack* stack, int value) {
     Node* temp = malloc(sizeof(Node));
     if (temp == NULL) {
-        printf("MEMORY PANICCC");
-        return -1;
+        return memoryAllocationError;
     }
     temp->value = value;
     temp->next = stack->head;
     stack->head = temp;
-    return 0;
+    return ok;
 }
 
-int top(Stack* stack) {
+int top(Stack* stack, ErrorCode* errorCode) {
+    *errorCode = ok;
+    if (isEmpty(stack)) {
+        *errorCode = stackIsEmpty;
+        return 0;
+    }
     return stack->head->value;
 }
 
-int pop(Stack* stack) {
+ErrorCode pop(Stack* stack) {
     if (stack->head == NULL) {
-        return -1;
+        return stackIsEmpty;
     }
-    Node* head = stack->head;
-    stack->head = stack->head->next;
-    free(head);
-    return 0;
+    Node* next = stack->head->next;
+    free(stack->head);
+    stack->head = next;
+    return ok;
 }
 
 bool isEmpty(Stack* stack) {
@@ -55,6 +59,7 @@ void deleteStack(Stack* stack) {
     while (!isEmpty(stack)) {
         pop(stack);
     }
+    free(stack);
 }
 
 bool tests(void) {
