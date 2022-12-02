@@ -32,13 +32,14 @@ int postfixCalc(char* expression, int *errorCode) {
     char operations[] = "+-*/";
     for (int i = 0; i < strlen(expression) - 1; ++i) {
         if (strchr(numbers, expression[i]) != NULL) {
-            push(stack, expression[i]-'0');
+            push(stack, expression[i] - '0');
         }
         if (strchr(operations, expression[i]) != NULL) {
             int firstValue = 0;
             int secondValue = 0;
-            if (!isEmpty(stack)) {
-                secondValue = top(stack);
+            ErrorCode stackErrorCode = ok;
+            secondValue = top(stack, &stackErrorCode);
+            if (stackErrorCode == ok) {
                 pop(stack);
             }
             else {
@@ -46,8 +47,9 @@ int postfixCalc(char* expression, int *errorCode) {
                 deleteStack(stack);
                 return result;
             }
-            if (!isEmpty(stack)) {
-                firstValue = top(stack);
+            
+            firstValue = top(stack, &stackErrorCode);
+            if (stackErrorCode == ok) {
                 pop(stack);
             }
             else {
@@ -55,27 +57,50 @@ int postfixCalc(char* expression, int *errorCode) {
                 deleteStack(stack);
                 return result;
             }
+
             switch (expression[i]) {
                 case '+': {
-                    push(stack, firstValue + secondValue);
+                    if (push(stack, firstValue + secondValue) != ok) {
+                        deleteStack(stack);
+                        *errorCode = -1;
+                        return result;
+                    }
                     break;
                 }
                 case '-': {
-                    push(stack, firstValue - secondValue);
+                    if (push(stack, firstValue - secondValue) != ok) {
+                        deleteStack(stack);
+                        *errorCode = -1;
+                        return result;
+                    }
                     break;
                 }
                 case '*': {
-                    push(stack, firstValue * secondValue);
+                    if (push(stack, firstValue * secondValue) != ok) {
+                        deleteStack(stack);
+                        *errorCode = -1;
+                        return result;
+                    }
                     break;
                 }
                 case '/': {
-                    push(stack, firstValue / secondValue);
+                    if (secondValue == 0 || push(stack, firstValue / secondValue) != ok) {
+                        deleteStack(stack);
+                        *errorCode = -1;
+                        return result;
+                    }
                     break;
                 }
             }
         }
     }
-    result = top(stack);
+    ErrorCode stackErrorCode = ok;
+    result = top(stack, &stackErrorCode);
+    if (stackErrorCode != ok) {
+        *errorCode = -1;
+        deleteStack(stack);
+        return result;
+    }
     pop(stack);
     if (!isEmpty(stack)) {
         *errorCode = -1;
@@ -91,10 +116,7 @@ bool tests(void) {
         return false;
     }
     testResult = postfixCalc("5 7 + 3 * 4 / ", &testErrorCode);
-    if (testErrorCode != 0 || testResult != 9) {
-        return false;
-    }
-    return true;
+    return testErrorCode == 0 && testResult == 9;
 }
 
 void main() {
