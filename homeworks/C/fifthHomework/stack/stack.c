@@ -1,6 +1,7 @@
-﻿#include "stack.h"
-#include <stdio.h>
+﻿#include <stdio.h>
 #include <stdlib.h>
+
+#include "stack.h"
 
 typedef struct Node {
     int value;
@@ -59,4 +60,41 @@ void deleteStack(Stack* stack) {
         pop(stack);
     }
     free(stack);
+}
+
+bool tests(void) {
+    Stack* testStack = createStack();
+    if (testStack == NULL) {
+        return false;
+    }
+    if (!isEmpty(testStack)) {
+        deleteStack(testStack);
+        return false;
+    }
+    if (push(testStack, 10) != 0) {
+        deleteStack(testStack);
+        return false;
+    }
+    if (testStack->head->value != 10 || top(testStack) != 10) {
+        deleteStack(testStack);
+        return false;
+    }
+    if (push(testStack, 20)) {
+        deleteStack(testStack);
+        return false;
+    }
+    if (testStack->head->value != 20 || top(testStack) != 20 || testStack->head->next->value != 10) {
+        deleteStack(testStack);
+        return false;
+    }
+    if (pop(testStack) != 0) {
+        deleteStack(testStack);
+        return false;
+    }
+    if (top(testStack) != 10) {
+        deleteStack(testStack);
+        return false;
+    }
+    deleteStack(testStack);
+    return true;
 }

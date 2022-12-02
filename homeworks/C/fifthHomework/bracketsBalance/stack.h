@@ -3,12 +3,6 @@
 
 typedef struct Stack Stack;
 
-typedef enum ErrorCode {
-    ok, 
-    stackIsEmpty,
-    memoryAllocationError
-} ErrorCode;
-
 //create the stack, return NULL if problems with memory allocation
 Stack* createStack();
 
@@ -25,7 +19,4 @@ bool isEmpty(Stack* stack);
 void deleteStack(Stack* stack);
 
 //return value of head element
-int top(Stack* stack, ErrorCode* errorCode);
-
-//tests the stack operability
-bool tests(void);
+int top(Stack* stack);
