@@ -1,6 +1,5 @@
 #define _CRT_SECURE_NO_WARNINGS
 
-#pragma once
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -39,6 +38,7 @@ void deleteList(List* list) {
         list->head = list->head->next;
         free(currentHead);
     }
+    free(list);
 }
 
 int readFromFile(char* fileName, List* list) {
@@ -50,9 +50,9 @@ int readFromFile(char* fileName, List* list) {
     char number[MAX_SIZE] = { 0 };
     bool isContinue = true;
     while (true) {
-        if (fscanf(file, "%s%s", name, number) == EOF) {
+        if (fscanf_s(file, "%s%s", name, MAX_SIZE, number, MAX_SIZE) == EOF) {
             break;
-        };
+        }
         Node* newNode = malloc(sizeof(Node));
         if (newNode == NULL) {
             return -1;
@@ -131,23 +131,19 @@ bool listTests(void) {
     if (testList == NULL) {
         return false;
     }
-    char testName[] = "aa";
-    char testNumber[] = "456";
-    if (add(testList, &testName[0], &testNumber[0]) != 0) {
+    if (add(testList, "aa", "456") != 0) {
         deleteList(testList);
         return false;
     }
-    if (strcmp(testList->head->name, testName) != 0 || strcmp(testList->head->number, testNumber) != 0) {
+    if (strcmp(testList->head->name, "aa") != 0 || strcmp(testList->head->number, "456") != 0) {
         deleteList(testList);
         return false;
     }
-    strcpy(testName, "bb");
-    strcpy(testNumber, "123");
-    if (add(testList, &testName[0], &testNumber[0]) != 0) {
+    if (add(testList, "bb", "123") != 0) {
         deleteList(testList);
         return false;
     }
-    if (strcmp(testList->head->name, testName) != 0 || strcmp(testList->head->number, testNumber) != 0) {
+    if (strcmp(testList->head->name, "bb") != 0 || strcmp(testList->head->number, "123") != 0) {
         deleteList(testList);
         return false;
     }
