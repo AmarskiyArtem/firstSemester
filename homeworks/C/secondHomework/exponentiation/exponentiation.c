@@ -28,12 +28,12 @@ double exponentiationFast(int number, int power) {
 //tests block
 bool testsForExponentiationStandart(void) {
     return (exponentiationStandart(5, 1) == 5 && exponentiationStandart(4, 0) == 1 && exponentiationStandart(3, 4) == 81 && 
-        exponentiationStandart(5, -1) == 0.2 && exponentiationStandart(2, -2) == 0.25);
+        (fabs(exponentiationStandart(5, -1) - 0.2) < 0.0001) && (fabs(exponentiationStandart(2, -2) - 0.25) < 0.001));
 }
 
 bool testsForExponentiationFast(void) {
     return (exponentiationFast(5, 1) == 5 && exponentiationFast(4, 0) == 1 && exponentiationFast(3, 4) == 81 && 
-        exponentiationFast(5, -1) == 0.2 && exponentiationFast(2, -2) == 0.25);
+        (fabs(exponentiationStandart(5, -1) - 0.2) < 0.0001) && (fabs(exponentiationStandart(2, -2) - 0.25) < 0.001));
 }
 //tests block end
 
@@ -41,9 +41,11 @@ void main() {
     setlocale(LC_ALL, "RU");
     if (!testsForExponentiationStandart()) {
         printf("АААААААА ПАНИКА 1 ТЕСТ НЕ ПРОШЕЛ\n");
+        return;
     }
     if (!testsForExponentiationFast()) {
         printf("АААААААА ПАНИКА 2 ТЕСТ НЕ ПРОШЕЛ\n");
+        return;
     }
     int number = 0;
     printf("Введите число\n");
