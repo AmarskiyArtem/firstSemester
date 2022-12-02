@@ -7,7 +7,7 @@
 
 #include "stack.h"
 
-#define maxBracketsStringLength 100
+#define MAX_BRACKET_STRING_LENGTH 100
 
 bool isCorrectBracketSequence(int length, char* string) {
     if (length % 2 == 1) {
@@ -65,7 +65,7 @@ void main() {
         return;
     }
     printf("Введите скобочную последовательность:\n");
-    char bracketsString[maxBracketsStringLength] = { 0 };
+    char bracketsString[MAX_BRACKET_STRING_LENGTH] = { 0 };
     scanf_s("%100s", bracketsString, (unsigned)sizeof(bracketsString));
     bool result = isCorrectBracketSequence(bracketsStringLength, &bracketsString[0]);
     result ? printf("Верная скобочная последовательность") : printf("Неверная скобочная последовательность");
