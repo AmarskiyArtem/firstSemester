@@ -3,7 +3,7 @@
 
 #include "kmp.h"
 
-int* makePrefix(char* string) {
+int* makePrefix(const char* string) {
     int* prefix = (int*)calloc(strlen(string), sizeof(int));
     if (prefix == NULL) {
         return NULL;
@@ -28,8 +28,8 @@ int* makePrefix(char* string) {
     return prefix;
 }
 
-int searchForOccurrences(char* string, char* substring) {
-    int* prefix = makePrefix(substring);
+int searchForOccurrences(const char* string, const char* substring) {
+    const int* prefix = makePrefix(substring);
     int i = 0;
     int j = 0;
     while (i < strlen(string)) {
