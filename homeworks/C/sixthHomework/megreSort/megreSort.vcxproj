@@ -127,11 +127,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="list.c" />
     <ClCompile Include="main.c" />
-    <ClCompile Include="megreSortAndList.c" />
+    <ClCompile Include="megreSort.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="mergeSortAndList.h" />
+    <ClInclude Include="list.h" />
+    <ClInclude Include="mergeSort.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="input.txt" />

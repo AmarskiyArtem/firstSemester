@@ -1,9 +1,13 @@
-#pragma once
-#include "mergeSortAndList.h"
 #include <stdio.h>
+
+#include "mergeSort.h"
+#include "list.h"
 
 void main(void) {
     List* list = createList();
+    readFromFile("input.txt", list);
+    printList(list);
+   /* List* list = createList();
     readFromFile("input.txt", list);
     printf("Phone book before sorting:\n");
     printList(list);
@@ -18,8 +22,8 @@ void main(void) {
             "1 - by name\n2 - by number\n");
         scanf_s("%d", &action);
     }
-    //sorting
+    sorting
     printf("Phone book after sorting:\n");
     printList(list);
-    deleteList(list);
+    deleteList(list);*/
 }

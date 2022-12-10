@@ -15,15 +15,21 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="megreSortAndList.c">
+    <ClCompile Include="megreSort.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="main.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="list.c">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="mergeSortAndList.h">
+    <ClInclude Include="mergeSort.h">
+      <Filter>Исходные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="list.h">
       <Filter>Исходные файлы</Filter>
     </ClInclude>
   </ItemGroup>

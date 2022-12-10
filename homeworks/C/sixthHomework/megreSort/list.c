@@ -1,12 +1,9 @@
-﻿#define _CRT_SECURE_NO_WARNINGS
+#define _CRT_SECURE_NO_WARNINGS
 
-#pragma once
 #include <stdio.h>
 #include <string.h>
-#include <stdlib.h>
-#include <stdbool.h>
 
-#include "mergeSortAndList.h"
+#include "list.h"
 
 #define MAX_SIZE 256
 
@@ -21,7 +18,7 @@ typedef struct List {
 } List;
 
 List* createList(void) {
-    List* list = malloc(sizeof(list));
+    List* list = malloc(sizeof(List));
     if (list == NULL) {
         return NULL;
     }
@@ -33,28 +30,22 @@ bool isEmpty(List* list) {
     return list->head == NULL;
 }
 
-int compare(Node* firstElement, Node* secondElement, int key) {
-    if (key == 1) { 
-        return strcmp(firstElement->name, secondElement->name);
-    }
-    return strcmp(firstElement->number, secondElement->number);
-}
-
 void deleteList(List* list) {
     while (!isEmpty(list)) {
         Node* currentHead = list->head;
         list->head = list->head->next;
         free(currentHead);
     }
+    free(list);
 }
 
-int readFromFile(char* fileName, List* list) {
+ErrorCode readFromFile(char* fileName, List* list) {
     FILE* file = fopen(fileName, "r");
     if (file == NULL) {
-        return -1;
+        return fileMissing;
     }
-    char name[MAX_SIZE] = { 0 };
-    char number[MAX_SIZE] = { 0 };
+    char name[MAX_SIZE] = { '\0' };
+    char number[MAX_SIZE] = { '\0' };
     while (true) {
         if (fscanf(file, "%s", name) == EOF) {
             break;
@@ -64,7 +55,7 @@ int readFromFile(char* fileName, List* list) {
         }
         Node* newNode = malloc(sizeof(Node));
         if (newNode == NULL) {
-            return -1;
+            return memoryAllocationError;
         }
         strcpy(newNode->name, name);
         strcpy(newNode->number, number);
@@ -72,18 +63,25 @@ int readFromFile(char* fileName, List* list) {
         list->head = newNode;
     }
     fclose(file);
-    return 0;
+    return ok;
 }
 
-int printList(List* list) {
+ErrorCode printList(List* list) {
     if (isEmpty(list)) {
-        return -1;
+        return listIsEmpty;
     }
     Node* node = list->head;
     while (node != NULL) {
         printf("%s %s\n", node->name, node->number);
         node = node->next;
     }
-    return 0;
+    return ok;
 }
 
+Node* getFirstNode(List* list) {
+    return list->head;
+}
+
+Node* getNextNode(Node* node) {
+
+}
