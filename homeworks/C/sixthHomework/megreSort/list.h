@@ -8,8 +8,8 @@ typedef struct Node Node;
 typedef struct List List;
 
 typedef enum SortBy {
-    byName,
-    byPhone
+    name,
+    number
 } SortBy;
 
 typedef enum ErrorCode {
@@ -23,8 +23,15 @@ List* createList(void);
 
 void deleteList(List* list);
 
+ErrorCode addNode(List* list, char* name, char* number);
+
+char* getNameFromHead(List* list);
+
+char* getNumberFromHead(List* list);
+
+int listLength(List* list);
+
+void deleteHead(List* list);
+
 ErrorCode readFromFile(char* fileName, List* list);
 
-ErrorCode printList(List* list);
-
-Node* getFirstNode(List* list);
