@@ -1,7 +1,7 @@
-﻿#pragma once
-#include "cycleList.h"
-#include <stdlib.h>
+﻿#include <stdlib.h>
 #include <stdio.h>
+
+#include "cycleList.h"
 
 typedef struct Node {
     int number;

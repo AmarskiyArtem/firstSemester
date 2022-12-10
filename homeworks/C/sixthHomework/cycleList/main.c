@@ -1,6 +1,6 @@
-#pragma once
-#include "cycleList.h"
 #include <stdio.h>
+
+#include "cycleList.h"
 
 int lastAlive(int n, int m) {
     int exitCode = -1;
