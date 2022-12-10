@@ -1,8 +1,8 @@
-﻿#pragma once
-#include "sortedList.h"
-#include <stdio.h>
+﻿#include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+
+#include "sortedList.h"
 
 typedef struct Node {
     int value;
@@ -26,16 +26,16 @@ bool isEmpty(SortedList* list) {
     return list->head == NULL;
 }
 
-int push(SortedList* list, int value) {
+ErrorCode push(SortedList* list, int value) {
     Node* temp = malloc(sizeof(Node));
     if (temp == NULL) {
-        return -1;
+        return memoryAllocationError;
     }
     temp->value = value;
     if (isEmpty(list)) {
-        temp->next = list->head;
+        temp->next = NULL;
         list->head = temp;
-        return 0;
+        return ok;
     }
     Node* currentNode = list->head;
     Node* previousNode = list->head;
@@ -43,41 +43,41 @@ int push(SortedList* list, int value) {
         previousNode = currentNode;
         currentNode = currentNode->next;
     }
+    if (currentNode == previousNode) {
+        temp->next = currentNode;
+        list->head = temp;
+        return ok;
+    }
     if (currentNode->next == NULL && value > currentNode->value) {
         temp->next = NULL;
         currentNode->next = temp;
-        return 0;
+        return ok;
     }
     if (currentNode->next == NULL) {
         temp->next = currentNode;
         previousNode->next = temp;
-        return 0;
-    }
-    if (currentNode == previousNode) {
-        temp->next = currentNode;
-        list->head = temp;
-        return 0;
+        return ok;
     }
     temp->next = currentNode;
     previousNode->next = temp;
-    return 0;
+    return ok;
 }
 
-int printSortedList(SortedList* list) {
+ErrorCode printSortedList(SortedList* list) {
     if (isEmpty(list)) {
-        return -1;
+        return listIsEmpty;
     }
     Node* currentNode = list->head;
     do {
         printf("%d\n", currentNode->value);
         currentNode = currentNode->next;
     } while (currentNode != NULL);
-    return 0;
+    return ok;
 }
 
-int pop(SortedList* list, int value) {
+ErrorCode pop(SortedList* list, int value) {
     if (isEmpty(list)) {
-        return -1;
+        return listIsEmpty;
     }
     Node* currentNode = list->head;
     Node* previousNode = list->head;
@@ -86,28 +86,64 @@ int pop(SortedList* list, int value) {
         currentNode = currentNode->next;
     }
     if (value != currentNode->value) {
-        return -1;
+        return elementMissing;
     }
     if (currentNode == previousNode) {
         list->head = currentNode->next;
         free(currentNode);
-        return 0;
+        return ok;
     }
     previousNode->next = currentNode->next;
     free(currentNode);
-    return 0;
+    return ok;
 }
 
 void deleteSortedList(SortedList* list) {
-    if (list->head == NULL) {
-        return;
+    while (list->head != NULL) {
+        Node* head = list->head;
+        list->head = list->head->next;
+        free(head);
     }
-    Node* currentNode = list->head;
-    while (currentNode->next != NULL) {
-        Node* temp = malloc(sizeof(Node));
-        temp = currentNode;
-        currentNode =  currentNode->next;
-        free(temp);
+    free(list);
+}
+
+bool tests(void) {
+    SortedList* list = createSortedList();
+    if (list == NULL) {
+        return false;
     }
-    free(currentNode);
+    if (push(list, 5) != ok) {
+        deleteSortedList(list);
+        return false;
+    }
+    if (list->head->value != 5) {
+        deleteSortedList(list);
+        return false;
+    }
+    if (push(list, 1) != ok) {
+        deleteSortedList(list);
+        return false;
+    }
+    if (list->head->value != 1 || list->head->next->value != 5) {
+        deleteSortedList(list);
+        return false;
+    }
+    if (push(list, 3) != ok) {
+        deleteSortedList(list);
+        return false;
+    }
+    if (list->head->next->value != 3) {
+        deleteSortedList(list);
+        return false;
+    }
+    if (pop(list, 3) != ok || pop(list, 8) != elementMissing) {
+        deleteSortedList(list);
+        return false;
+    }
+    if (list->head->value != 1 || list->head->next->value != 5 || list->head->next->next != NULL) {
+        deleteSortedList(list);
+        return false;
+    }
+    deleteSortedList(list);
+    return true;
 }

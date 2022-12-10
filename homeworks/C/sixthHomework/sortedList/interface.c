@@ -1,9 +1,13 @@
-#pragma once
-#include "sortedList.h"
 #include <stdio.h>
 #include <stdbool.h>
 
-int main() {
+#include "sortedList.h"
+
+void main() {
+    if (!tests()) {
+        printf("Tests failed");
+        return;
+    }
     SortedList* sortedlist = createSortedList();
     if (sortedlist == NULL) {
         printf("All bad");
@@ -20,46 +24,46 @@ int main() {
         printf("Input action: \n");
         scanf_s("%d", &currentAction);
         switch (currentAction) {
-        case 0: {
-            isContinue = false;
-            printf("Good bye!");
-            break;
-        }
-        case 1: {
-            int value = 0;
-            printf("Input a number:\n");
-            scanf_s("%d", &value);
-            if (push(sortedlist, value) != 0) {
-                printf("Problems with memory allocation\n");
+            case 0: {
+                isContinue = false;
+                printf("Good bye!");
+                break;
             }
-            else {
-                printf("Insert successfull\n");
+            case 1: {
+                int value = 0;
+                printf("Input a number:\n");
+                scanf_s("%d", &value);
+                if (push(sortedlist, value) != ok) {
+                    printf("Problems with memory allocation\n");
+                }
+                else {
+                    printf("Insert successfull\n");
+                }
+                break;
             }
-            break;
-        }
-        case 2: {
-            int value = 0;
-            printf("Input a number:\n");
-            scanf_s("%d", &value);
-            if (pop(sortedlist, value) != 0) {
-                printf("No such element in list\n");
+            case 2: {
+                int value = 0;
+                printf("Input a number:\n");
+                scanf_s("%d", &value);
+                if (pop(sortedlist, value) != ok) {
+                    printf("No such element in list\n");
+                }
+                else {
+                    printf("deletion successfull\n");
+                }
+                break;
             }
-            else {
-                printf("deletion successfull\n");
+            case 3: {
+                printf("===========\n");
+                if (printSortedList(sortedlist) != ok) {
+                    printf("Sorted list is empty\n");
+                }
+                break;
             }
-            break;
-        }
-        case 3: {
-            printf("===========\n");
-            if (printSortedList(sortedlist) != 0) {
-                printf("Sorted list is empty\n");
+            default: {
+                printf("Incorrect input\n");
+                break; 
             }
-            break;
-        }
-        default: {
-            printf("Incorrect input\n");
-            break; 
-        }
         }
     }
     deleteSortedList(sortedlist);
