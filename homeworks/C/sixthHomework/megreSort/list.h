@@ -8,8 +8,8 @@ typedef struct Node Node;
 typedef struct List List;
 
 typedef enum SortBy {
-    name,
-    number
+    name = 1,
+    number = 2
 } SortBy;
 
 typedef enum ErrorCode {
@@ -35,3 +35,4 @@ void deleteHead(List* list);
 
 ErrorCode readFromFile(char* fileName, List* list);
 
+ErrorCode printList(List* list);

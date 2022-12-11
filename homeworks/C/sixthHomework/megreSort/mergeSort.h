@@ -2,4 +2,4 @@
 
 #include "list.h"
 
-List* mergeSort(List* list);
+List* mergeSort(List* list, SortBy sortBy);

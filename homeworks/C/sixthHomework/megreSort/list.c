@@ -31,7 +31,7 @@ List* createList(void) {
 }
 
 bool isEmpty(List* list) {
-    return list->head == NULL && list->tail == NULL;
+    return list->head == NULL;
 }
 
 void deleteList(List* list) {
@@ -118,5 +118,17 @@ ErrorCode readFromFile(char* fileName, List* list) {
         }
     }
     fclose(file);
+    return ok;
+}
+
+ErrorCode printList(List* list) {
+    if (isEmpty(list)) {
+        return listIsEmpty;
+    }
+    Node* currentNode = list->head;
+    while (currentNode != NULL) {
+        printf("%s %s\n", currentNode->name, currentNode->number);
+        currentNode = currentNode->next;
+    }
     return ok;
 }
