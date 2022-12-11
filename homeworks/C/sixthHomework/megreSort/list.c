@@ -132,3 +132,56 @@ ErrorCode printList(List* list) {
     }
     return ok;
 }
+
+bool readFromFileTest(void) {
+    List* testList = createList();
+    if (testList == NULL) {
+        return false;
+    }
+    if (readFromFile("test.txt", testList) != ok) {
+        deleteList(testList);
+        return false;
+    }
+    if (strcmp(testList->tail->name, "aName") != 0 || strcmp(testList->head->next->number, "100") != 0 
+        || testList->length != 3 || strcmp(testList->head->number, "800") != 0) {
+        deleteList(testList);
+        return false;
+    }
+    deleteList(testList);
+    return true;
+}
+
+bool addGetDeleteFunctionsTests(void) {
+    List* testList = createList();
+    if (testList == NULL) {
+        return false;
+    }
+    if (readFromFile("test.txt", testList) != ok) {
+        deleteList(testList);
+        return false;
+    }
+    if (addNode(testList, "green", "666") != ok) {
+        deleteList(testList);
+        return false;
+    }
+    if (strcmp(testList->tail->number, "666") != 0 || strcmp(testList->tail->name, "green") != 0
+        || testList->length != 4) {
+        deleteList(testList);
+        return false;
+    }
+    if (strcmp(getNameFromHead(testList), "firstName") != 0) {
+        deleteList(testList);
+        return false;
+    }
+    deleteHead(testList);
+    if (strcmp(getNumberFromHead(testList), "100") != 0) {
+        deleteList(testList);
+        return false;
+    }
+    deleteList(testList);
+    return true;
+}
+
+bool listTests(void) {
+    return readFromFileTest() && addGetDeleteFunctionsTests();
+}

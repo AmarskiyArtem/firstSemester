@@ -59,3 +59,25 @@ List* mergeSort(List* list, SortBy sortBy) {
     rightList = mergeSort(rightList, sortBy);
     return merge(leftList, rightList, sortBy);
 }
+
+bool sortTest(void) {
+    List* testList = createList();
+    if (testList == NULL) {
+        return false;
+    }
+    if (readFromFile("test.txt", testList) != ok) {
+        deleteList(testList);
+        return false;
+    }
+    testList = mergeSort(testList, name);
+    if (testList == NULL) {
+        deleteList(testList);
+        return false;
+    }
+    if (strcmp(getNameFromHead(testList), "aName") != 0) {
+        deleteHead(testList);
+        return false;
+    }
+    deleteList(testList);
+    return true;
+}

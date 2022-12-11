@@ -24,9 +24,6 @@
     <ClCompile Include="list.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="tests.c">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="mergeSort.h">
@@ -35,12 +32,12 @@
     <ClInclude Include="list.h">
       <Filter>Исходные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="tests.h">
-      <Filter>Исходные файлы</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="input.txt">
+      <Filter>Исходные файлы</Filter>
+    </Text>
+    <Text Include="test.txt">
       <Filter>Исходные файлы</Filter>
     </Text>
   </ItemGroup>

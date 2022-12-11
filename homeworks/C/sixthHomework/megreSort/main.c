@@ -3,7 +3,15 @@
 #include "mergeSort.h"
 #include "list.h"
 
+bool tests(void) {
+    return listTests() && sortTest();
+}
+
 void main(void) {
+    if (!tests()) {
+        printf("tests failed");
+        return;
+    }
     List* list = createList();
     if (list == NULL) {
         return;

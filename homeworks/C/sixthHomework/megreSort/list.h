@@ -19,6 +19,7 @@ typedef enum ErrorCode {
     listIsEmpty
 } ErrorCode;
 
+
 List* createList(void);
 
 void deleteList(List* list);
@@ -36,3 +37,5 @@ void deleteHead(List* list);
 ErrorCode readFromFile(char* fileName, List* list);
 
 ErrorCode printList(List* list);
+
+bool listTests(void);
