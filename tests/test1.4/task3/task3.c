@@ -38,15 +38,19 @@ int* readingFromFile(const char* fileName, int* arrayLength) {
     return array;
 }
 
-void writeToFileInReverseOrder(const char* fileName, int* array, int arrayLength) {
+int writeToFileInReverseOrder(const char* fileName, int* array, int arrayLength) {
     FILE* file = fopen(fileName, "w");
     if (file == NULL) {
-        return NULL;
+        return -1;
     }
     for (int i = arrayLength - 1; i >= 0; --i) {
-        fprintf(file, "%d ", array[i]);
+        if (fprintf(file, "%d ", array[i]) < 0) {
+            fclose(file);
+            return -1;
+        }
     }
     fclose(file);
+    return 0;
 }
 
 bool readingFromFileTest(void) {
@@ -70,16 +74,41 @@ bool readingFromFileTest(void) {
     return true;
 }
 
+int prepareToTest(void) {
+    int arrayLength = 5;
+    int array[] = { 1, 2, 3, 4, 5 };
+    FILE* file = fopen("recordTest.txt", "w");
+    if (file == NULL) {
+        return -1;
+    }
+    for (int i = 0; i < arrayLength; ++i) {
+        if (fprintf(file, "%d ", array[i]) < 0) {
+            fclose(file);
+            return -1;
+        }
+    }
+    fclose(file);
+    return 0;
+}
+
 bool recordToFileTest(void) {
-    prepareToTest();
+    if (prepareToTest() != 0) {
+        return false;
+    }
     int testArrayLength = 0;
     int* testArray = readingFromFile("recordTest.txt", &testArrayLength);
     if (testArray == NULL) {
         return false;
     }
-    writeToFileInReverseOrder("recordTest.txt", testArray, testArrayLength);
+    if (writeToFileInReverseOrder("recordTest.txt", testArray, testArrayLength) != 0) {
+        free(testArray);
+        return false;
+    }
     free(testArray);
     testArray = readingFromFile("recordTest.txt", &testArrayLength);
+    if (testArray == NULL) {
+        return false;
+    }
     int rightArray[] = {5, 4, 3, 2, 1};
     for (int i = 0; i < testArrayLength; ++i) {
         if (rightArray[i] != testArray[i]) {
@@ -89,19 +118,6 @@ bool recordToFileTest(void) {
     }
     free(testArray);
     return true;
-}
-
-int prepareToTest(void) {
-    int arrayLength = 5;
-    int array[] = { 1, 2, 3, 4, 5 };
-    FILE* file = fopen("recordTest.txt", "w");
-    if (file == NULL) {
-        return -1;
-    }
-    for (int i = 0; i < arrayLength; ++i) {
-        fprintf(file, "%d ", array[i]);
-    }
-    fclose(file);
 }
 
 bool tests(void) {
@@ -120,7 +136,10 @@ void main(void) {
     }
     printf("Original file:\n");
     arrayPrint(array, arrayLength);
-    writeToFileInReverseOrder("input.txt", array, arrayLength);
+    if (writeToFileInReverseOrder("input.txt", array, arrayLength) != 0) {
+        free(array);
+        return;
+    }
     free(array);
     array = readingFromFile("input.txt", &arrayLength);
     if (array == NULL) {
