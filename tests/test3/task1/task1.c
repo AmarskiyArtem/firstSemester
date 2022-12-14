@@ -6,8 +6,9 @@
 #define MAX_INT_SIZE 10
 
 bool isCorrectBinaryNumber(char* number) {
+    int stringLength = strlen(number) - 1;
     char correctSymbols[] = "01";
-    for (int i = 0; i < strlen(number) - 1; ++i) {
+    for (int i = 0; i < stringLength; ++i) {
         if (strchr(correctSymbols, number[i]) == NULL) {
             return false;
         }
@@ -16,7 +17,7 @@ bool isCorrectBinaryNumber(char* number) {
 }
 
 char* intToString(int number) {
-    char* result = calloc(10, sizeof(char));
+    char* result = calloc(MAX_INT_SIZE, sizeof(char));
     if (result == NULL) {
         return NULL;
     }
@@ -39,7 +40,8 @@ char* intToString(int number) {
 char* binaryToDecimal(char* binaryNumber) {
     int number = 0;
     int pow = 1;
-    for (int i = strlen(binaryNumber) - 1; i >= 0; --i) {
+    int binaryNumberLength = strlen(binaryNumber) - 1;
+    for (int i = binaryNumberLength; i >= 0; --i) {
         if (binaryNumber[i] == '1') {
             number += pow;
         }
@@ -53,7 +55,7 @@ bool tests(void) {
     char testNumberTwo[] = "11111111";
     char* resultOne = binaryToDecimal(&testNumberOne[0]);
     char* resultTwo = binaryToDecimal(&testNumberTwo[0]);
-    if (resultOne == NULL || resultTwo == NULL 
+    if (resultOne == NULL || resultTwo == NULL
         || strcmp(resultOne, "42") != 0 || strcmp(resultTwo, "255") != 0) {
         free(resultOne);
         free(resultTwo);
