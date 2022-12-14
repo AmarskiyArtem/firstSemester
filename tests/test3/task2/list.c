@@ -42,7 +42,7 @@ void deleteList(List* list) {
     free(list);
 }
 
-ErrorCode addNode(List* list, char* value) {
+ErrorCode pushBack(List* list, char* value) {
     Node* newNode = malloc(sizeof(Node));
     if (newNode == NULL) {
         return memoryAllocationError;
@@ -70,7 +70,7 @@ ErrorCode aStringAdder(List * list) {
     int originalListLength = list->length;
     for (int i = 0; i < originalListLength; ++i) {
         if (currentNode->value[0] == 'a') {
-            if (addNode(list, currentNode->value) != ok) {
+            if (pushBack(list, currentNode->value) != ok) {
                 return memoryAllocationError;
             }
         }
@@ -96,19 +96,19 @@ bool tests(void) {
     if (testList == NULL) {
         return false;
     }
-    if (addNode(testList, "atf") != ok) {
+    if (pushBack(testList, "atf") != ok) {
         deleteList(testList);
         return false;
     }
-    if (addNode(testList, "apple") != ok) {
+    if (pushBack(testList, "apple") != ok) {
         deleteList(testList);
         return false;
     }
-    if (addNode(testList, "") != ok) {
+    if (pushBack(testList, "") != ok) {
         deleteList(testList);
         return false;
     }
-    if (addNode(testList, "green") != ok) {
+    if (pushBack(testList, "green") != ok) {
         deleteList(testList);
         return false;
     }
@@ -125,7 +125,7 @@ bool tests(void) {
         deleteList(testList);
         return false;
     }
-    if (addNode(testList, "aNode") != ok) {
+    if (pushBack(testList, "aNode") != ok) {
         deleteList(testList);
         return false;
     }

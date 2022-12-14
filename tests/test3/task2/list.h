@@ -13,14 +13,20 @@ typedef enum ErrorCode {
     listIsEmpty
 } ErrorCode;
 
+//Create a list, return NULL, if memory allocation error
 List* createList(void);
 
+//Delete the list
 void deleteList(List* list);
 
-ErrorCode addNode(List* list, char* value);
+//Add an element to the tail of the list
+ErrorCode pushBack(List* list, char* value);
 
+//Print list from head
 ErrorCode printList(List* list);
 
+//Adds lines that start with a go to the end of the list
 ErrorCode aStringAdder(List* list);
 
+//tests
 bool tests(void);

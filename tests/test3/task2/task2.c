@@ -12,22 +12,22 @@ void main(void) {
         printf("Memory allocation error");
         return;
     }
-    if (addNode(list, "acvdfond") != ok) {
+    if (pushBack(list, "acvdfond") != ok) {
         deleteList(list);
         printf("Memory allocation error");
         return;
     }
-    if (addNode(list, "vdfn") != ok) {
+    if (pushBack(list, "vdfn") != ok) {
         deleteList(list);
         printf("Memory allocation error");
         return;
     }
-    if (addNode(list, "jj") != ok) {
+    if (pushBack(list, "jj") != ok) {
         deleteList(list);
         printf("Memory allocation error");
         return;
     }
-    if (addNode(list, "avreyb") != ok) {
+    if (pushBack(list, "avreyb") != ok) {
         deleteList(list);
         printf("Memory allocation error");
         return;
