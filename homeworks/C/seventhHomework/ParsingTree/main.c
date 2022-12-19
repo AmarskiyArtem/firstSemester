@@ -18,6 +18,7 @@ char* getStringFromFile(const char* fileName) {
         return NULL;
     }
     fgets(string, MAX_STRING_LENGTH, file);
+    fclose(file);
     return string;
 }
 
@@ -32,9 +33,82 @@ bool isCorrectMathExpression(const char* string) {
     return true;
 }
 
+bool readFromFileTest(void) {
+    char* testString = getStringFromFile("test.txt");
+    if (testString == NULL) {
+        return false;
+    }
+    if (strcmp(testString, "(* (+ 1 1) 2)") != 0) {
+        free(testString);
+        return false;
+    }
+    free(testString);
+    return true;
+}
+
+bool calculationTest(void) {
+    char* testString = getStringFromFile("test.txt");
+    if (testString == NULL) {
+        return false;
+    }
+    if (!isCorrectMathExpression(testString)) {
+        free(testString);
+        return false;
+    }
+    Tree* testTree = createTree();
+    if (testTree == NULL) {
+        free(testString);
+        return false;
+    }
+    if (fillTree(testTree, testString) != ok) {
+        free(testString);
+        deleteTree(testTree);
+        return false;
+    }
+    ErrorCode errorCode = ok;
+    int result = calculate(testTree, &errorCode);
+    free(testString);
+    deleteTree(testTree);
+    return errorCode == ok && result == 4;
+}
+
+bool tests(void) {
+    return calculationTest() && readFromFileTest();
+}
+
 void main(void) {
-    char* s = getStringFromFile("input.txt");
+    if (!tests()) {
+        printf("tests failed");
+        return;
+    }
+    char* string = getStringFromFile("input.txt");
+    if (string == NULL) {
+        printf("File not found");
+        return;
+    }
+    if (!isCorrectMathExpression(string)) {
+        printf("Incorrect math expression");
+        return;
+    }
     Tree* tree = createTree();
-    fillTree(tree, s);
-    printf("%d", calculate(tree, ok));
+    if (tree == NULL) {
+        printf("Memory allocation error");
+        return;
+    }
+    if (fillTree(tree, string) != ok) {
+        printf("Something went wrong");
+        deleteTree(tree);
+        return;
+    }
+    free(string);
+    ErrorCode errorCode = ok;
+    int result = calculate(tree, &errorCode);
+    if (errorCode != ok) {
+        printf("Something went wrong");
+        deleteTree(tree);
+        return;
+    }
+    printTree(tree);
+    printf("= %d", result);
+    deleteTree(tree);
 }
