@@ -1,8 +1,9 @@
+#define _CRT_SECURE_NO_WARNINGS
+
 #include <stdio.h>
-#include <stdlib.h>
-#include <stdbool.h>
+
 #include "tree.h"
-#include <string.h>
+
 
 #define MAX_STRING_LENGTH 50
 
@@ -22,7 +23,7 @@ char* getStringFromFile(const char* fileName) {
 
 bool isCorrectMathExpression(const char* string) {
     const char correctSymbols[] = "0123456789/*-+() ";
-    int stringLength = strlen(string) - 1;
+    int stringLength = (int)(strlen(string) - 1);
     for (int i = 0; i < stringLength; ++i) {
         if (strchr(correctSymbols, string[i]) == NULL) {
             return false;
@@ -31,3 +32,9 @@ bool isCorrectMathExpression(const char* string) {
     return true;
 }
 
+void main(void) {
+    char* s = getStringFromFile("input.txt");
+    Tree* tree = createTree();
+    fillTree(tree, s);
+    printf("%d", calculate(tree, ok));
+}
