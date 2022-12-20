@@ -164,11 +164,11 @@ bool addValueRecursive(Node** node, const char* key, const char* value, ErrorCod
 }
 
 ErrorCode addValue(Tree* tree, const char* key, const char* value) {
-    char* newValue = malloc(strlen(value));
+    char* newValue = malloc(strlen(value)); /////
     if (newValue == NULL) {
         return memoryAllocationError;
     }
-    char* newKey = malloc(strlen(key));
+    char* newKey = malloc(strlen(key));  ///////
     if (newKey == NULL) {
         free(newValue);
         return memoryAllocationError;
@@ -186,5 +186,175 @@ ErrorCode addValue(Tree* tree, const char* key, const char* value) {
     }
     addValueRecursive(&(tree->root), newKey, newValue, &errorCode);
     return errorCode == ok ? ok : memoryAllocationError;
+}
+
+char* getValueRecursive(Node* node, char* key, ErrorCode* errorCode) {
+    if (node == NULL) {
+        *errorCode = nodeIsNull;
+        return NULL;
+    }
+    if (strcmp(key, node->key) == 0) {
+        return node->value; /////////////
+    }
+    return (strcmp(key, node->key) < 0) ? getValueRecursive(node->left, key, errorCode) : 
+        getValueRecursive(node->right, key, errorCode);
+}
+
+char* getValue(Tree* tree, char* key, ErrorCode* errorCode) {
+    return getValueRecursive(tree->root, key, errorCode);
+}
+
+Node* mostRight(Node* node) {
+    while (node->right != NULL) {
+        node = node->right;
+    }
+    return node;
+}
+
+Node* deleteNodeRecursive(Node* node, char* key, ErrorCode* errorCode, bool* result) {
+    if (node == NULL) {
+        *result = true;
+        return NULL;
+    }
+    if (strcmp(key, node->key) == 0) {
+        if (node->left != NULL && node->right != NULL) {
+            Node* mostRightChild = mostRight(node->left);
+            char* newValue = calloc(sizeof(mostRightChild->value) + 1, sizeof(char*));
+            if (newValue == NULL) {
+                *errorCode = memoryAllocationError;
+                *result = true;
+                return NULL;
+            }
+            char* newKey = calloc(sizeof(mostRightChild->key) + 1, sizeof(char*));
+            if (newValue == NULL) {
+                free(newValue);
+                *errorCode = memoryAllocationError;
+                *result = true;
+                return NULL;
+            }
+            strcpy(newValue, mostRightChild->value);
+            strcpy(newKey, mostRightChild->key);
+            node->value = newValue;
+            node->key = newKey;
+            node->balance = mostRightChild->balance - 1;
+            mostRightChild = deleteNodeRecursive(mostRightChild, mostRightChild->key, errorCode, result);
+            node = balance(node);
+            *result = (node->balance != -1 && node->balance != 1);
+            return node;
+        }
+        if (node->right == NULL) {
+            if (node->left != NULL) {
+                node->left->parent = node->parent;
+            }
+            if (strcmp(key, node->parent->key) <= 0) {
+                node->parent->left = node->left;
+            }
+            else {
+                node->parent->right = node->left;
+            }
+        }
+        else {
+            node->right->parent = node->parent;
+            if (strcmp(key, node->parent->key) <= 0) {
+                node->parent->left = node->right;
+            }
+            else {
+                node->parent->right = node->right;
+            }
+        }
+        free(node->value);
+        free(node->key);
+        free(node);
+        *result = true;
+        return NULL;
+    }
+    if(strcmp(key, node->key) < 0) {
+        node->left = deleteNodeRecursive(node->left, key, errorCode, result);
+        if (*result) {
+            ++(node->balance);
+            node = balance(node);
+            *result = node->balance != -1 && node->balance != 1;
+            return node;
+        }
+        *result = false;
+        return node;
+    }
+    node->right = deleteNodeRecursive(node->right, key, errorCode, result);
+    if (*result) {
+        node->balance -= 1;
+        node = balance(node);
+        *result = node->balance != -1 && node->balance != 1;
+        return node;
+    }
+    *result = false;
+    return node;
+}
+
+Node* deleteRoot(Tree* tree, ErrorCode* errorCode, bool* result) {
+    if (tree->root->left != NULL && tree->root->right != NULL) {
+        Node* mostRightChild = mostRigth(tree->root->left);
+        char* newValue = calloc(sizeof(mostRightChild->value) + 1, sizeof(char));
+        if (newValue == NULL) {
+            *errorCode = memoryAllocationError;
+            return NULL;
+        }
+        char* newKey = calloc(sizeof(mostRightChild->value) + 1, sizeof(char));
+        if (newKey == NULL) {
+            free(newValue);
+            *errorCode = memoryAllocationError;
+            return NULL;
+        }
+        strcpy(newValue, mostRightChild->value);
+        tree->root->value = newValue;
+        strcpy(newKey, mostRightChild->key);
+        tree->root->key = newKey;
+        mostRightChild = deleteNodeRecursive(mostRightChild, mostRightChild->key, errorCode, result);
+        --(tree->root->balance);
+        tree->root = balance(tree->root);
+        return tree->root;
+    }
+    Node* newRoot = NULL;
+    if (tree->root->left != NULL) {
+        newRoot = tree->root->left;
+    }
+    else {
+        newRoot = tree->root->right;
+    }
+    if (newRoot != NULL)
+    {
+        newRoot->parent = NULL;
+    }
+    free(tree->root->key);
+    free(tree->root->value);
+    free(tree->root);
+    tree->root = balance(newRoot);
+    return newRoot;
+}
+
+ErrorCode deleteValue(Tree* tree, char* key, bool* result) {
+    if (isEmpty(tree)) {
+        return treeIsEmpty;
+    }
+    ErrorCode* errorCode = ok;
+    if (strcmp(key, tree->root->key) == 0) {
+        tree->root = deleteRoot(tree, errorCode, result);
+        return errorCode;
+    }
+    tree->root = deleteNodeRecursive(tree->root, key, errorCode, result);
+    return errorCode;
+}
+
+void deleteTreeRecursive(Node* node) {
+    if (node == NULL) {
+        return;
+    }
+    deleteTreeRecursive(node->left);
+    deleteTreeRecursive(node->right);
+    free(node);
+}
+
+void deleteTree(Tree* tree) {
+    deleteTreeRecursive(tree->root);
+    free(tree);
 }
 
