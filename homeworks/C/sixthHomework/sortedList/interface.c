@@ -45,7 +45,7 @@ void main() {
                 int value = 0;
                 printf("Input a number:\n");
                 scanf_s("%d", &value);
-                if (pop(sortedlist, value) != ok) {
+                if (deleteValue(sortedlist, value) != ok) {
                     printf("No such element in list\n");
                 }
                 else {
@@ -66,5 +66,5 @@ void main() {
             }
         }
     }
-    deleteSortedList(sortedlist);
+    deleteSortedList(&sortedlist);
 }

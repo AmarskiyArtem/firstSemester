@@ -14,12 +14,7 @@ typedef struct SortedList {
 } SortedList;
 
 SortedList* createSortedList(void) {
-    SortedList* sortedList = malloc(sizeof(Node));
-    if (sortedList == NULL) {
-        return NULL;
-    }
-    sortedList->head = NULL;
-    return sortedList;
+    return calloc(1, sizeof(SortedList));
 }
 
 bool isEmpty(SortedList* list) {
@@ -75,7 +70,7 @@ ErrorCode printSortedList(SortedList* list) {
     return ok;
 }
 
-ErrorCode pop(SortedList* list, int value) {
+ErrorCode deleteValue(SortedList* list, int value) {
     if (isEmpty(list)) {
         return listIsEmpty;
     }
@@ -98,13 +93,14 @@ ErrorCode pop(SortedList* list, int value) {
     return ok;
 }
 
-void deleteSortedList(SortedList* list) {
-    while (list->head != NULL) {
-        Node* head = list->head;
-        list->head = list->head->next;
+void deleteSortedList(SortedList** list) {
+    while ((*list)->head != NULL) {
+        Node* head = (*list)->head;
+        (*list)->head = (*list)->head->next;
         free(head);
     }
-    free(list);
+    free(*list);
+    *list = NULL;
 }
 
 bool tests(void) {
@@ -113,37 +109,37 @@ bool tests(void) {
         return false;
     }
     if (push(list, 5) != ok) {
-        deleteSortedList(list);
+        deleteSortedList(&list);
         return false;
     }
     if (list->head->value != 5) {
-        deleteSortedList(list);
+        deleteSortedList(&list);
         return false;
     }
     if (push(list, 1) != ok) {
-        deleteSortedList(list);
+        deleteSortedList(&list);
         return false;
     }
     if (list->head->value != 1 || list->head->next->value != 5) {
-        deleteSortedList(list);
+        deleteSortedList(&list);
         return false;
     }
     if (push(list, 3) != ok) {
-        deleteSortedList(list);
+        deleteSortedList(&list);
         return false;
     }
     if (list->head->next->value != 3) {
-        deleteSortedList(list);
+        deleteSortedList(&list);
         return false;
     }
-    if (pop(list, 3) != ok || pop(list, 8) != elementMissing) {
-        deleteSortedList(list);
+    if (deleteValue(list, 3) != ok || deleteValue(list, 8) != elementMissing) {
+        deleteSortedList(&list);
         return false;
     }
     if (list->head->value != 1 || list->head->next->value != 5 || list->head->next->next != NULL) {
-        deleteSortedList(list);
+        deleteSortedList(&list);
         return false;
     }
-    deleteSortedList(list);
+    deleteSortedList(&list);
     return true;
 }

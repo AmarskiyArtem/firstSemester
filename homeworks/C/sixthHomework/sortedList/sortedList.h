@@ -16,10 +16,10 @@ SortedList* createSortedList();
 ErrorCode push(SortedList* list, int value);
 
 //delete element from list, return 0 if succesfull, -1 if not (no such element in list)
-ErrorCode pop(SortedList* list, int value);
+ErrorCode deleteValue(SortedList* list, int value);
 
 //delete all elements
-void deleteSortedList(SortedList* list);
+void deleteSortedList(SortedList** list);
 
 //print all elements, return 0 succesfull, -1 if not (list is empty)
 ErrorCode printSortedList(SortedList* list);
