@@ -38,34 +38,61 @@ CycleList* createCycleList(int amountOfWarriors) {
     return cycleList;
 }
 
-int deleteElement(CycleList* list, int position, int m, int* exitCode) {
+Position deleteElement(CycleList* list, Position position, int m, int* exitCode) {
     *exitCode = -1;
-    Node* currentNode = list->head;
+   /* Node* currentNode = list->head;
     Node* previousNode = list->head;
     while (currentNode->number != position) {
         previousNode = currentNode;
         currentNode = currentNode->next;
-    }
-    for (int i = 1; i < m; ++i) {
-        previousNode = currentNode;
+    }*/
+    Node* currentNode = position;
+    //Node* previousNode = position;
+    for (int i = 0; i < m - 2 ; ++i) {
+        //previousNode = currentNode;
         currentNode = currentNode->next;
     }
-    position = currentNode->next->number;
-    if (currentNode->next == previousNode) {
+    position = currentNode->next;
+    if (currentNode->next == currentNode) {
         *exitCode = 0;
-        free(currentNode);
-        free(previousNode);
         return position;
     }
-    if (list->head == currentNode) {
-        list->head = currentNode->next;
-        Node* temp = list->head;
-        while (temp->next != currentNode) {
+    Node* temp = currentNode->next;
+    currentNode->next = currentNode->next->next;
+    if (list->head == temp) {
+        list->head = temp->next;
+        free(temp);
+        return currentNode->next;
+        /*Node* temp = list->head;
+        while (temp->next != currentNode->next) {
             temp = temp->next;
         }
-        temp->next = list->head;
+        temp->next = list->head;*/
     }
-    previousNode->next = currentNode->next;
-    free(currentNode);
-    return position;
+    //previousNode->next = currentNode->next;
+    free(temp);
+    return currentNode->next;
+}
+
+int getValue(Position position) {
+    return position->number;
+}
+
+Position getFirstPosition(CycleList* list) {
+    return list->head;
+}
+
+void deleteList(CycleList** list) {
+    free((*list)->head);
+    free((*list));
+    list = NULL;
+}
+
+void printList(CycleList* list) {
+    Node* node = list->head;
+    do {
+        printf("%d ", node->number);
+        node = node->next;
+    } while (node != list->head);
+    printf("\n");
 }

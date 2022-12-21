@@ -4,16 +4,19 @@
 
 int lastAlive(int n, int m) {
     int exitCode = -1;
-    int position = 1;
     CycleList* cycleList = createCycleList(n);
+    Position position = getFirstPosition(cycleList);
     while (exitCode != 0) {
         position = deleteElement(cycleList, position, m, &exitCode);
+        //printList(cycleList);
     }
-    return position;
+    int result = getValue(position);
+    deleteList(&cycleList);
+    return result;
 }
 
 bool tests(void) {
-    return (lastAlive(6, 4) == 5 && lastAlive(2, 8) == 1 && lastAlive(5, 5) == 2);
+    return lastAlive(6, 4) == 5 && lastAlive(2, 8) == 1 && lastAlive(5, 5) == 2;
 }
 
 void main() {
