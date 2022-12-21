@@ -38,6 +38,8 @@ void deleteList(List* list) {
     while (!isEmpty(list)) {
         Node* currentHead = list->head;
         list->head = list->head->next;
+        free(currentHead->number);
+        free(currentHead->name);
         free(currentHead);
     }
     free(list);

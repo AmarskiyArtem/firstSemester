@@ -8,8 +8,6 @@
 #include "mergeSort.h"
 #include "list.h"
 
-#define MAX_SIZE 256
-
 void addElements(List* parentList, List* childList, int quantity) {
     for (int i = 0; i < quantity; ++i) {
         addNode(childList, getNameFromHead(parentList), getNumberFromHead(parentList));
@@ -51,6 +49,7 @@ List* mergeSort(List* list, SortBy sortBy) {
     addElements(list, leftList, length / 2);
     List* rightList = createList();
     if (rightList == NULL) {
+        deleteList(leftList);
         return NULL;
     }
     addElements(list, rightList, length - length / 2);
