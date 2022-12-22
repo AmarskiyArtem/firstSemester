@@ -1,7 +1,6 @@
 ﻿#define _CRT_SECURE_NO_WARNINGS
 
 #include <string.h>
-#include <stdbool.h>
 #include <stdlib.h>
 
 #include "AVLtree.h"
@@ -93,14 +92,14 @@ Node* balance(Node* node) {
         return node;
     }
     if (node->balance == 2) {
-        if (getBalance(node->right == -1)) {
+        if (getBalance(node->right) == -1) {
             node->right = rightRotation(node->right);
         }
         node = leftRotation(node);
         return node;
     }
     if (node->balance == -2) {
-        if (getBalance(node->right == 1)) {
+        if (getBalance(node->right) == 1) {
             node->left = leftRotation(node->left);
         }
         node = rightRotation(node);
@@ -116,8 +115,21 @@ Node* createNode(Node* parentNode, const char* key, const char* value, ErrorCode
         *errorCode = memoryAllocationError;
         return NULL;
     }
-    newNode->key = key;
-    newNode->value = value;
+    newNode->key = malloc(strlen(key) + 1);
+    if (newNode->key == NULL) {
+        free(newNode);
+        *errorCode = memoryAllocationError;
+        return NULL;
+    }
+    strcpy(newNode->key, key);
+    newNode->value = malloc(strlen(value) + 1);
+    if (newNode->value == NULL) {
+        free(newNode->key);
+        free(newNode);
+        *errorCode = memoryAllocationError;
+        return NULL;
+    }
+    strcpy(newNode->value, value);
     newNode->balance = 0;
     newNode->parent = parentNode;
     return newNode;
@@ -127,7 +139,12 @@ bool addValueRecursive(Node** node, const char* key, const char* value, ErrorCod
     *errorCode = ok;
     if (strcmp(key, (*node)->key) == 0) {
         free((*node)->value);
-        (*node)->value = value;
+        (*node)->value = malloc(strlen(value) + 1);
+        if ((*node)->value == NULL) {
+            *errorCode = memoryAllocationError;
+            return false;
+        }
+        strcpy((*node)->value, value);
         return false;
     }
     if (strcmp(key, (*node)->key) < 0) {
@@ -188,20 +205,23 @@ ErrorCode addValue(Tree* tree, const char* key, const char* value) {
     return errorCode == ok ? ok : memoryAllocationError;
 }
 
-char* getValueRecursive(Node* node, char* key, ErrorCode* errorCode) {
+char* getValueRecursive(Node* node, char* key) {
     if (node == NULL) {
-        *errorCode = nodeIsNull;
         return NULL;
     }
     if (strcmp(key, node->key) == 0) {
         return node->value; /////////////
     }
-    return (strcmp(key, node->key) < 0) ? getValueRecursive(node->left, key, errorCode) : 
-        getValueRecursive(node->right, key, errorCode);
+    return (strcmp(key, node->key) < 0) ? getValueRecursive(node->left, key) : 
+        getValueRecursive(node->right, key);
 }
 
-char* getValue(Tree* tree, char* key, ErrorCode* errorCode) {
-    return getValueRecursive(tree->root, key, errorCode);
+char* getValue(Tree* tree, char* key) {
+    return getValueRecursive(tree->root, key);
+}
+
+bool isKeyInTree(Tree* tree, const char* key) {
+    return getValueRecursive(tree->root, key) != NULL;
 }
 
 Node* mostRight(Node* node) {
@@ -226,7 +246,7 @@ Node* deleteNodeRecursive(Node* node, char* key, ErrorCode* errorCode, bool* res
                 return NULL;
             }
             char* newKey = calloc(sizeof(mostRightChild->key) + 1, sizeof(char*));
-            if (newValue == NULL) {
+            if (newKey == NULL) {
                 free(newValue);
                 *errorCode = memoryAllocationError;
                 *result = true;
@@ -292,7 +312,7 @@ Node* deleteNodeRecursive(Node* node, char* key, ErrorCode* errorCode, bool* res
 
 Node* deleteRoot(Tree* tree, ErrorCode* errorCode, bool* result) {
     if (tree->root->left != NULL && tree->root->right != NULL) {
-        Node* mostRightChild = mostRigth(tree->root->left);
+        Node* mostRightChild = mostRight(tree->root->left);
         char* newValue = calloc(sizeof(mostRightChild->value) + 1, sizeof(char));
         if (newValue == NULL) {
             *errorCode = memoryAllocationError;
@@ -338,10 +358,10 @@ ErrorCode deleteValue(Tree* tree, char* key, bool* result) {
     ErrorCode* errorCode = ok;
     if (strcmp(key, tree->root->key) == 0) {
         tree->root = deleteRoot(tree, errorCode, result);
-        return errorCode;
+        return *errorCode;
     }
     tree->root = deleteNodeRecursive(tree->root, key, errorCode, result);
-    return errorCode;
+    return *errorCode;
 }
 
 void deleteTreeRecursive(Node* node) {
@@ -353,8 +373,9 @@ void deleteTreeRecursive(Node* node) {
     free(node);
 }
 
-void deleteTree(Tree* tree) {
-    deleteTreeRecursive(tree->root);
-    free(tree);
+void deleteTree(Tree** tree) {
+    deleteTreeRecursive((*tree)->root);
+    free(*tree);
+    tree = NULL;
 }
 
