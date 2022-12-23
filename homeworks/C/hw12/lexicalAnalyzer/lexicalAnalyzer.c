@@ -73,7 +73,6 @@ bool isNumber(const char* string) {
                 }
                 return false;
             }
-                
         }
     }
 }
