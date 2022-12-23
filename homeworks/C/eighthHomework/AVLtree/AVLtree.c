@@ -18,7 +18,7 @@ typedef struct Tree {
     Node* root;
 } Tree;
 
-Tree* createTree() {
+Tree* createTree(void) {
     return calloc(1, sizeof(Tree));
 }
 
@@ -351,16 +351,17 @@ Node* deleteRoot(Tree* tree, ErrorCode* errorCode, bool* result) {
     return newRoot;
 }
 
-ErrorCode deleteValue(Tree* tree, char* key, bool* result) {
+ErrorCode deleteValue(Tree* tree, char* key) {
+    bool result = true;
     if (isEmpty(tree)) {
         return treeIsEmpty;
     }
     ErrorCode errorCode = ok;
     if (strcmp(key, tree->root->key) == 0) {
-        tree->root = deleteRoot(tree, &errorCode, result);
+        tree->root = deleteRoot(tree, &errorCode, &result);
         return errorCode;
     }
-    tree->root = deleteNodeRecursive(tree->root, key, &errorCode, result);
+    tree->root = deleteNodeRecursive(tree->root, key, &errorCode, &result);
     return errorCode;
 }
 
@@ -379,6 +380,79 @@ void deleteTree(Tree** tree) {
     tree = NULL;
 }
 
-bool tests(void) {
+int getHeight(Node* node, bool* balanceIsOk) {
+    if (node->left == NULL && node->right == NULL) {
+        return 0;
+    }
+    if (node->left == NULL || node->right == NULL) {
+        return 1;
+    }
+    int heightLeft = getHeight(node->left, balanceIsOk);
+    int heightRight = getHeight(node->right, balanceIsOk);
+    if (heightLeft > heightRight) {
+        *balanceIsOk = abs(heightLeft - heightRight) < 2;
+    }
+    else {
+        *balanceIsOk = abs(heightRight - heightLeft) < 2;
+    }
+    return (heightLeft > heightRight) ? heightLeft : heightRight + 1;
+}
 
+bool isBalanced(Tree* tree) {
+    bool balanceIsOk = true;
+    int height = getHeight(tree->root, &balanceIsOk);
+    return balanceIsOk;
+}
+
+bool tests(void) {
+    Tree* tree = createTree();
+    if (tree == NULL) {
+        return false;
+    }
+    if (addValue(tree, "cdef", "root") != ok) {
+        deleteTree(&tree);
+        return false;
+    }
+    if (addValue(tree, "bcd", "rootLSon") != ok) {
+        deleteTree(&tree);
+        return false;
+    }
+    if (addValue(tree, "rs", "rootRSon") != ok) {
+        deleteTree(&tree);
+        return false;
+    }
+    if (addValue(tree, "aaaa", "LLSon") != ok) {
+        deleteTree(&tree);
+        return false;
+    }
+    if (addValue(tree, "bdder", "LRSon") != ok) {
+        deleteTree(&tree);
+        return false;
+    }
+    if (strcmp(getValue(tree, "aaaa"), "LLSon") != 0 || !isKeyInTree(tree, "cdef") || isKeyInTree(tree, "root")) {
+        deleteTree(&tree);
+        return false;
+    }
+    if (addValue(tree, "hgv", "RLSon") != ok) {
+        deleteTree(&tree);
+        return false;
+    }
+    if (addValue(tree, "zzzzzz", "RRSon") != ok) {
+        deleteTree(&tree);
+        return false;
+    }
+    if (addValue(tree, "efg", "RLL") != ok) {
+        deleteTree(&tree);
+        return false;
+    }
+    if (addValue(tree, "ddddddd", "root") != ok) {
+        deleteTree(&tree);
+        return false;
+    }
+    if (!isBalanced(tree)) {
+        deleteTree(&tree);
+        return false;
+    }
+    deleteTree(&tree);
+    return true;
 }

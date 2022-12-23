@@ -19,6 +19,10 @@ void actions(void) {
 }
 
 void main(void) {
+    if (!tests()) {
+        printf("Tests failed");
+        return;
+    }
     bool isContinue = true;
     Tree* tree = createTree();
     if (tree == NULL) {
@@ -66,8 +70,7 @@ void main(void) {
                 char key[MAX_STRING_LENGTH] = { 0 };
                 printf("Input key\n");
                 scanf_s("%s", key, MAX_STRING_LENGTH);
-                bool result = true;
-                deleteValue(tree, &key[0], &key[0], &result);
+                deleteValue(tree, &key[0]);
                 break;
             }
             default: {
@@ -76,6 +79,7 @@ void main(void) {
             }
         }
     }
+
     deleteTree(&tree);
 }
 

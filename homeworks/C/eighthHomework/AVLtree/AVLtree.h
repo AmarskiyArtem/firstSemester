@@ -19,7 +19,7 @@ ErrorCode addValue(Tree* tree, const char* key, const char* value);
 char* getValue(Tree* tree, char* key);
 
 // Delete element by key
-ErrorCode deleteValue(Tree* tree, char* key, bool* result);
+ErrorCode deleteValue(Tree* tree, char* key);
 
 // Delete the tree
 void deleteTree(Tree** tree);
@@ -29,4 +29,3 @@ bool isKeyInTree(Tree* tree, const char* key);
 
 // Tests
 bool tests(void);
-
