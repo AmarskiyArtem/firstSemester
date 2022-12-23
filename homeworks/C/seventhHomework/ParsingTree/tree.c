@@ -63,7 +63,7 @@ Node* fillTreeRecursive(const char* string, int* index, ErrorCode* errorCode) {
     else {
         if (string[*index] == '-') {
             ++(*index);
-            newNode->operand = -stringToNumber(string, index); ////!!!!!!!!
+            newNode->operand = -stringToNumber(string, index);
         }
         else {
             newNode->operand = stringToNumber(string, index);
