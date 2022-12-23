@@ -37,6 +37,7 @@ int searchForOccurrences(const char* string, const char* substring) {
             ++i;
             ++j;
             if (j == strlen(substring)) {
+                free(prefix);
                 return i - strlen(substring);
             }
         }
@@ -49,5 +50,6 @@ int searchForOccurrences(const char* string, const char* substring) {
             }
         }
     }
+    free(prefix);
     return -1;
 }

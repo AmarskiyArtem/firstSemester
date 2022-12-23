@@ -80,4 +80,5 @@ void main() {
         printf("The first occurrence of the symbol begins with %d index", result) :
         printf("The substring does not occur in the file");
     free(substring);
+    free(string);
 }
