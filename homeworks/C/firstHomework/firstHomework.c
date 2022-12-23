@@ -274,6 +274,21 @@ void substringEntryCounter(void)   //7th task
     printf("подстрока %s входит в строку %s %d раз(a)\n", substring, string, entryCounter);
 }
 
+void swapVar(int* a, int* b) {
+    if (a == b) {
+        return;
+    }
+    *a = *a ^ *b;
+    *b = *b ^ *a;
+    *a = *a ^ *b;
+}
+
+void swapElements(int* array, int border) {
+    for (int i = 0; i < border / 2; ++i) {
+        swapVar(&array[i], &array[border - i - 1]);
+    }
+}
+
 void partSwapArray(void)  //8th task
 {
     int m = 0;
@@ -297,26 +312,30 @@ void partSwapArray(void)  //8th task
         printf("%d ", array[i]);
     }
 
-    for (int i = 0; i < m / 2; ++i)
-    {
-        int temporaryVariableForSwap = array[i];
-        array[i] = array[m - i - 1];
-        array[m - i - 1] = temporaryVariableForSwap;
-    }
+    swapElements(&array[0], m);
+    swapElements(&array[0], arrayLength);
+    swapElements(&array[0], n);
 
-    for (int i = 0; i < arrayLength / 2; ++i)
-    {
-        int temporaryVariableForSwap = array[i];
-        array[i] = array[arrayLength - i - 1];
-        array[arrayLength - i - 1] = temporaryVariableForSwap;
-    }
+    //for (int i = 0; i < m / 2; ++i)
+    //{
+    //    int temporaryVariableForSwap = array[i];
+    //    array[i] = array[m - i - 1];
+    //    array[m - i - 1] = temporaryVariableForSwap;
+    //}
 
-    for (int i = 0; i < n / 2; ++i)
-    {
-        int temporaryVariableForSwap = array[i];
-        array[i] = array[n - i - 1];
-        array[n - i - 1] = temporaryVariableForSwap;
-    }
+    //for (int i = 0; i < arrayLength / 2; ++i)
+    //{
+    //    int temporaryVariableForSwap = array[i];
+    //    array[i] = array[arrayLength - i - 1];
+    //    array[arrayLength - i - 1] = temporaryVariableForSwap;
+    //}
+
+    //for (int i = 0; i < n / 2; ++i)
+    //{
+    //    int temporaryVariableForSwap = array[i];
+    //    array[i] = array[n - i - 1];
+    //    array[n - i - 1] = temporaryVariableForSwap;
+    //}
 
     printf("\nМассив после изменений:\n");
     for (int i = 0; i < arrayLength; ++i)
