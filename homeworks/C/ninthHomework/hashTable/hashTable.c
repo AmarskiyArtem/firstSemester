@@ -43,7 +43,7 @@ int hashFunction(char* string, int size) {
     int result = 0;
     int stringLength = strlen(string);
     for (int i = 0; i < stringLength; ++i) {
-        result = (result + string[i]) % size; //*i try
+        result = abs((result + string[i])) % size; //*i try
     }
     return result;
 }
