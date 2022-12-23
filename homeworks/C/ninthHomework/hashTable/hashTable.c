@@ -116,3 +116,34 @@ ErrorCode addValue(HashTable* hashTable, char* string) {
     }
     return ok;
 }
+
+void deleteHashTable(HashTable* hashTable) {
+    for (int i = 0; i < hashTable->size; ++i) {
+        deleteList(hashTable->cells[i]);
+    }
+    deleteCells(hashTable);
+    free(hashTable);
+}
+
+int fillFactor(HashTable* hashTable) {
+    return hashTable->fillFactor;
+}
+
+int maxListLength(HashTable* table) {
+    int maxLength = 0;
+    for (int i = 0; i < table->size; ++i) {
+        int listLength = getLength(table->cells[i]);
+        if (listLength > maxLength) {
+            maxLength = listLength;
+        }
+    }
+    return maxLength;
+}
+
+float averageListLength(HashTable* table) {
+    int sum = 0;
+    for (int i = 0; i < table->size; ++i) {
+        sum += getLength(table->cells[i]);
+    }
+    return sum / table->size;
+}
