@@ -454,5 +454,18 @@ bool tests(void) {
         return false;
     }
     deleteTree(&tree);
+    Tree* newTree = createTree();
+    for (int i = 0; i < 1000; ++i) {
+        if (addValue(newTree, &i, "a") != ok) {
+            deleteTree(&newTree);
+            return false;
+        }
+    }
+    if (!isBalanced(newTree)) {
+        deleteTree(&newTree);
+        return false;
+    }
+    deleteTree(&newTree);
     return true;
 }
+

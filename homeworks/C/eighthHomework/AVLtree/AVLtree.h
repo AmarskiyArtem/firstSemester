@@ -12,6 +12,7 @@ typedef enum ErrorCode {
 typedef struct Tree Tree;
 
 Tree* createTree();
+
 // Add value and key to tree
 ErrorCode addValue(Tree* tree, const char* key, const char* value);
 
