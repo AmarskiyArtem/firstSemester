@@ -1,8 +1,9 @@
 ﻿#define _CRT_SECURE_NO_WARNINGS
-#pragma once
-#include "treeDictionary.h"
+
 #include <malloc.h>
 #include <string.h>
+
+#include "treeDictionary.h"
 
 typedef struct Node {
     int key;
@@ -257,4 +258,56 @@ void deleteNode(Node* node) {
 
 void deleteTree(Tree* tree) {
     deleteNode(tree->root);
+    free(tree);
+}
+
+bool tests(void) {
+    Tree* tree = createTree();
+    if (tree == NULL) {
+        return false;
+    }
+    if (addKey(tree, 5, "avfv") != 0) {
+        deleteTree(tree);
+        return false;
+    }
+    if (addKey(tree, 6, "b  v") != 0) {
+        deleteTree(tree);
+        return false;
+    }
+    if (addKey(tree, 3, "pf") != 0) {
+        deleteTree(tree);
+        return false;
+    }
+    if (addKey(tree, 4, "cf") != 0) {
+        deleteTree(tree);
+        return false;
+    }
+    if (tree->root->right->key != 6 || strcmp(tree->root->left->right->value, "cf") != 0
+        || tree->root->left->key != 3) {
+        deleteTree(tree);
+        return false;
+    }
+    if (addKey(tree, 8, "ag") != 0) {
+        deleteTree(tree);
+        return false;
+    }
+    if (strcmp(getValue(tree, 8), "ag") != 0 || getValue(tree, 15) != NULL
+        || isKeyInTree(tree, 44)) {
+        deleteTree(tree);
+        return false;
+    }
+    if (deleteKey(tree, 5) != 0) {
+        deleteTree(tree);
+        return false;
+    }
+    if (deleteKey(tree, 8) != 0) {
+        deleteTree(tree);
+        return false;
+    }
+    if (tree->root->key != 4 || tree->root->right->right != NULL) {
+        deleteTree(tree);
+        return false;
+    }
+    deleteTree(tree);
+    return true;
 }

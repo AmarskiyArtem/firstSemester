@@ -1,6 +1,7 @@
-#pragma once
-#include "treeDictionary.h"
 #include <stdio.h>
+
+#include "treeDictionary.h"
+
 #define MAX_ARRAY_LENGTH 100
 
 void printActions(void) {
@@ -49,6 +50,10 @@ void printActions(void) {
 //}
 
 void main() {
+    if (!tests()) {
+        printf("tests failed");
+        return;
+    }
     bool isContinue = true;
     Tree* tree = createTree();
     printActions();
