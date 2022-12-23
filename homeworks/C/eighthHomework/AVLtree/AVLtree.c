@@ -27,7 +27,13 @@ bool isEmpty(Tree* tree) {
 }
 
 Node* leftRotation(Node* root) {
+    //if (root->right == NULL) {
+    //    return root;
+    //}
     Node* base = root->right;
+    if (base == NULL) {
+        return root;
+    }
     root->right = base->left;
     if (base->left != NULL) {
         base->left->parent = root;
@@ -55,7 +61,13 @@ Node* leftRotation(Node* root) {
 }
 
 Node* rightRotation(Node* root) {
+    //if (root->left == NULL) {
+    //    return root;
+    //}
     Node* base = root->left;
+    if (base == NULL) {
+        return root;
+    }
     root->left = base->right;
     base->parent = root->parent;
     if (base->right != NULL) {
@@ -93,6 +105,7 @@ Node* balance(Node* node) {
     }
     if (node->balance == 2) {
         if (getBalance(node->right) == -1) {
+
             node->right = rightRotation(node->right);
         }
         node = leftRotation(node);
@@ -384,8 +397,11 @@ int getHeight(Node* node, bool* balanceIsOk) {
     if (node->left == NULL && node->right == NULL) {
         return 0;
     }
-    if (node->left == NULL || node->right == NULL) {
-        return 1;
+    if (node->left != NULL && node->right == NULL) {
+        return getHeight(node->left, balanceIsOk);
+    }
+    if (node->right != NULL && node->left == NULL) {
+        return getHeight(node->right, balanceIsOk);
     }
     int heightLeft = getHeight(node->left, balanceIsOk);
     int heightRight = getHeight(node->right, balanceIsOk);
@@ -456,7 +472,9 @@ bool tests(void) {
     deleteTree(&tree);
     Tree* newTree = createTree();
     for (int i = 0; i < 1000; ++i) {
-        if (addValue(newTree, &i, "a") != ok) {
+        char temp[10] = { 0 };
+        _itoa(i, temp, 10);
+        if (addValue(newTree, temp, "a") != ok) {
             deleteTree(&newTree);
             return false;
         }
