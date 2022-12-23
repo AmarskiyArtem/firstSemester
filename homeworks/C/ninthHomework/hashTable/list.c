@@ -1,9 +1,10 @@
 #define _CRT_SECURE_NO_WARNINGS
-#pragma once
-#include "list.h"
+
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
+
+#include "list.h"
 
 typedef struct Node {
     int frequency;
@@ -13,14 +14,11 @@ typedef struct Node {
 
 typedef struct List {
     Node* head;
+    int length;
 } List;
 
 List* createList(void) {
-    List* list = malloc(sizeof(Node));
-    if (list == NULL) {
-        return NULL;
-    }
-    list->head = NULL;
+    List* list = calloc(1, sizeof(List));
     return list;
 }
 
@@ -38,42 +36,44 @@ Node* findNodeWithSameValue(Node* node, char* value) {
     return NULL;
 }
 
-int push(List* list, char* value) {
+ErrorCode push(List* list, char* value) {
     if (isEmpty(list)) {
         Node* newNode = malloc(sizeof(Node));
         if (newNode == NULL) {
-            return -1;
+            return memoryAllocationError;
         }
         char* newValue = calloc(strlen(value) + 1, sizeof(char));
         if (newValue == NULL) {
-            return -1;
+            return memoryAllocationError;
         }
         strcpy(newValue, value);
         newNode->value = newValue;
         newNode->next = NULL;
         newNode->frequency = 1;
         list->head = newNode;
-        return 0;
+        ++(list->length);
+        return ok;
     }
     Node* node = findNodeWithSameValue(list->head, value);
     if (node == NULL) {
         Node* newNode = malloc(sizeof(Node));
         if (newNode == NULL) {
-            return -1;
+            return memoryAllocationError;
         }
         char* newValue = calloc(strlen(value) + 1, sizeof(char));
         if (newValue == NULL) {
-            return -1;
+            return memoryAllocationError;
         }
         strcpy(newValue, value);
         newNode->value = newValue;
         newNode->next = list->head;
         newNode->frequency = 1;
         list->head = newNode;
-        return 0;
+        ++(list->length);
+        return ok;
     }
     ++(node->frequency);
-    return 0;
+    return ok;
 }
 
 void printList(List* list) {
@@ -91,4 +91,26 @@ void deleteList(List* list) {
         free(currentHead->value);
         free(currentHead);
     }
+    free(list);
+}
+
+int getLength(List* list) {
+    return list->length;
+}
+
+char* getValueFromHead(List* list) {
+    if (isEmpty(list)) {
+        return NULL;
+    }
+    return list->head->value;
+}
+
+void deleteHead(List* list) {
+    if (isEmpty(list)) {
+        return;
+    }
+    Node* newHead = list->head->next;
+    free(list->head->value);
+    free(list->head);
+    list->head = newHead;
 }

@@ -1,16 +1,21 @@
-#pragma once
 #include <stdio.h>
+
 #include "list.h"
+#include "hashTable.h"
+
 
 void main() {
-    List* list = createList();
-    char* a = "fioobnsdf";
-    push(list, a);
-    char* b = "fhpuranvpon";
-    push(list, b);
-    push(list, b);
-    char *c = "csdjpvnpb";
-    push(list, c);
-    printList(list);
-    deleteList(list);
+    HashTable* hashTable = createHashTable();
+    if (hashTable == NULL) {
+        return;
+    }
+    addValue(hashTable, "fff");
+    addValue(hashTable, "aab");
+    addValue (hashTable, "zzz");
+    addValue(hashTable, "fgf");
+    addValue(hashTable, "aab");
+    addValue(hashTable, "zzf");
+    addValue(hashTable, "fff");
+    addValue(hashTable, "aab");
+    addValue(hashTable, "zbz");
 }
