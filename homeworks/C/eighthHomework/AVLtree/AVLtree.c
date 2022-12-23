@@ -27,13 +27,7 @@ bool isEmpty(Tree* tree) {
 }
 
 Node* leftRotation(Node* root) {
-    //if (root->right == NULL) {
-    //    return root;
-    //}
     Node* base = root->right;
-    if (base == NULL) {
-        return root;
-    }
     root->right = base->left;
     if (base->left != NULL) {
         base->left->parent = root;
@@ -61,13 +55,7 @@ Node* leftRotation(Node* root) {
 }
 
 Node* rightRotation(Node* root) {
-    //if (root->left == NULL) {
-    //    return root;
-    //}
     Node* base = root->left;
-    if (base == NULL) {
-        return root;
-    }
     root->left = base->right;
     base->parent = root->parent;
     if (base->right != NULL) {
@@ -397,12 +385,15 @@ int getHeight(Node* node, bool* balanceIsOk) {
     if (node->left == NULL && node->right == NULL) {
         return 0;
     }
-    if (node->left != NULL && node->right == NULL) {
-        return getHeight(node->left, balanceIsOk);
+    if (node->left == NULL || node->right == NULL) {
+        return 1;
     }
-    if (node->right != NULL && node->left == NULL) {
-        return getHeight(node->right, balanceIsOk);
-    }
+    //if (node->left != NULL && node->right == NULL) {
+    //    return getHeight(node->left, balanceIsOk);
+    //}
+    //if (node->right != NULL && node->left == NULL) {
+    //    return getHeight(node->right, balanceIsOk);
+    //}
     int heightLeft = getHeight(node->left, balanceIsOk);
     int heightRight = getHeight(node->right, balanceIsOk);
     if (heightLeft > heightRight) {
@@ -418,6 +409,24 @@ bool isBalanced(Tree* tree) {
     bool balanceIsOk = true;
     int height = getHeight(tree->root, &balanceIsOk);
     return balanceIsOk;
+}
+
+char* intToString(int number) {
+    char result[10] = { '\0' };
+    int numberLength = 0;
+    while (number > 0) {
+        result[numberLength] = (number % 10) + '0';
+        ++numberLength;
+        number /= 10;
+    }
+    result[numberLength] = '\0';
+    char temp = 0;
+    for (int i = 0; i < numberLength / 2; ++i) {
+        temp = result[i];
+        result[i] = result[numberLength - 1 - i];
+        result[numberLength - 1 - i] = temp;
+    }
+    return &result[0];
 }
 
 bool tests(void) {
@@ -471,9 +480,8 @@ bool tests(void) {
     }
     deleteTree(&tree);
     Tree* newTree = createTree();
-    for (int i = 0; i < 1000; ++i) {
-        char temp[10] = { 0 };
-        _itoa(i, temp, 10);
+    for (int i = 0; i < 100000; ++i) {
+        char* temp = intToString(i);
         if (addValue(newTree, temp, "a") != ok) {
             deleteTree(&newTree);
             return false;
