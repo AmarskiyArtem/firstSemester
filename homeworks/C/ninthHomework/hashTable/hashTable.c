@@ -69,7 +69,10 @@ List* tempList(HashTable* table) {
     for (int i = 0; i < table->size; ++i) {
         while (!isEmpty(table->cells[i])) {
             char* string = getValueFromHead(table->cells[i]);
-            push(temp, string);
+            int frequency = getFrequencyFromHead(table->cells[i]);
+            for (int i = 0; i < frequency; ++i) {
+                push(temp, string);
+            }
             deleteHead(table->cells[i]);
         }
         deleteList(table->cells[i]);
@@ -78,11 +81,7 @@ List* tempList(HashTable* table) {
 }
 
 void deleteCells(HashTable* hashtable) {
-
-    for (int i = 0; i < hashtable->size; ++i) {
-        deleteList(&(hashtable->cells[i]));
-    }
-    deleteList(hashtable->cells);
+    free(hashtable->cells);
 }
 
 ErrorCode increaseTable(HashTable* hashTable) {
@@ -96,7 +95,10 @@ ErrorCode increaseTable(HashTable* hashTable) {
     createCells(hashTable);
     while (!isEmpty(previouslyAddedStrings)) {
         char* string = getValueFromHead(previouslyAddedStrings);
-        add(hashTable, string);
+        int frequency = getFrequencyFromHead(previouslyAddedStrings);
+        for (int i = 0; i < frequency; ++i) {
+            add(hashTable, string);
+        }
         deleteHead(previouslyAddedStrings);
     }
     deleteList(previouslyAddedStrings);

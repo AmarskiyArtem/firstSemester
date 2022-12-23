@@ -11,11 +11,13 @@ void main() {
     }
     addValue(hashTable, "fff");
     addValue(hashTable, "aab");
-    addValue (hashTable, "zzz");
-    addValue(hashTable, "fgf");
+    addValue(hashTable, "zzz");
+    addValue(hashTable, "zzz");
+    /*addValue(hashTable, "fgf");
     addValue(hashTable, "aab");
     addValue(hashTable, "zzf");
     addValue(hashTable, "fff");
     addValue(hashTable, "aab");
-    addValue(hashTable, "zbz");
+    addValue(hashTable, "zbz");*/
+
 }

@@ -1,4 +1,5 @@
 #pragma once
+
 #include <stdbool.h>
 
 typedef struct List List;
@@ -23,3 +24,5 @@ bool isEmpty(List* list);
 char* getValueFromHead(List* list);
 
 void deleteHead(List* list);
+
+int getFrequencyFromHead(List* list);

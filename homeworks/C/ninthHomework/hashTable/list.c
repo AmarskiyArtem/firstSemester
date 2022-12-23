@@ -85,11 +85,12 @@ void printList(List* list) {
 }
 
 void deleteList(List* list) {
-    while (!isEmpty(list)) {
-        Node* currentHead = list->head;
+    Node* node = list->head;
+    while (list->head != NULL) {
         list->head = list->head->next;
-        free(currentHead->value);
-        free(currentHead);
+        free(node->value);
+        free(node);
+        node = list->head;
     }
     free(list);
 }
@@ -113,4 +114,8 @@ void deleteHead(List* list) {
     free(list->head->value);
     free(list->head);
     list->head = newHead;
+}
+
+int getFrequencyFromHead(List* list) {
+    return list->head->frequency;
 }
