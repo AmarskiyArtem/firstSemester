@@ -1,2 +1,0 @@
-firstName 8800
-second 9900

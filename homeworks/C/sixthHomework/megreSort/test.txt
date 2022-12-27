@@ -1,3 +1,0 @@
-firstName 800
-second 100
-aName 99900
