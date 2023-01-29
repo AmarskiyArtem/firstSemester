@@ -40,16 +40,9 @@ CycleList* createCycleList(int amountOfWarriors) {
 
 Position deleteElement(CycleList* list, Position position, int m, int* exitCode) {
     *exitCode = -1;
-   /* Node* currentNode = list->head;
-    Node* previousNode = list->head;
-    while (currentNode->number != position) {
-        previousNode = currentNode;
-        currentNode = currentNode->next;
-    }*/
+
     Node* currentNode = position;
-    //Node* previousNode = position;
     for (int i = 0; i < m - 2 ; ++i) {
-        //previousNode = currentNode;
         currentNode = currentNode->next;
     }
     position = currentNode->next;
@@ -63,13 +56,7 @@ Position deleteElement(CycleList* list, Position position, int m, int* exitCode)
         list->head = temp->next;
         free(temp);
         return currentNode->next;
-        /*Node* temp = list->head;
-        while (temp->next != currentNode->next) {
-            temp = temp->next;
-        }
-        temp->next = list->head;*/
     }
-    //previousNode->next = currentNode->next;
     free(temp);
     return currentNode->next;
 }

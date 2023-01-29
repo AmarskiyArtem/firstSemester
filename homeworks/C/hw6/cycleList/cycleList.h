@@ -14,9 +14,12 @@ CycleList* createCycleList(int amountOfWarriors);
 //delete m-th element, return the position from which the next countdown 
 Position deleteElement(CycleList* list, Position position, int m, int* exitCode);
 
+//return the first element
 Position getFirstPosition(CycleList* list);
 
+//return value from position
 int getValue(Position position);
+
 
 void deleteList(CycleList** list);
 

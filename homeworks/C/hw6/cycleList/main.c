@@ -8,7 +8,6 @@ int lastAlive(int n, int m) {
     Position position = getFirstPosition(cycleList);
     while (exitCode != 0) {
         position = deleteElement(cycleList, position, m, &exitCode);
-        //printList(cycleList);
     }
     int result = getValue(position);
     deleteList(&cycleList);
