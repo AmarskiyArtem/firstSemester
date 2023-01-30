@@ -39,19 +39,6 @@ ErrorCode push(List* list, int value) {
     return ok;
 }
 
-ErrorCode printList(List* list) {
-    if (isEmpty(list)) {
-        return listIsEmpty;
-    }
-    Node* currentNode = list->head;
-    while (currentNode != NULL) {
-        printf("%d ", currentNode->value);
-        currentNode = currentNode->next;
-    }
-    return ok;
-}
-
-
 void deleteOdd(List* list) {
     if (list->head->value % 2 != 0) {
         Node* temp = list->head;
@@ -71,6 +58,19 @@ void deleteOdd(List* list) {
         currentNode = currentNode->next;
     }
 }
+
+ErrorCode printList(List* list) {
+    if (isEmpty(list)) {
+        return listIsEmpty;
+    }
+    Node* currentNode = list->head;
+    while (currentNode != NULL) {
+        printf("%d ", currentNode->value);
+        currentNode = currentNode->next;
+    }
+    return ok;
+}
+
 
 bool tests(void) {
     List* testList = createList();
